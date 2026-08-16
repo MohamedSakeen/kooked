@@ -165,10 +165,6 @@ class _PantryScreenState extends State<PantryScreen> {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => context.push('/add-item'),
-        child: const Icon(Icons.add),
-      ),
     );
   }
 

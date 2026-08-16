@@ -107,3 +107,21 @@ Rules:
 - Estimate reasonable consumption per serving
 - Return ONLY the JSON object, no other text`;
 }
+
+export function buildClassificationPrompt(name) {
+  return `Classify this food item: "${name}".
+
+Return a JSON object with this exact structure:
+{
+  "canonicalName": "Canonical food name in Title Case",
+  "category": "Produce" | "Dairy" | "Meat & Seafood" | "Grains & Bread" | "Canned & Jarred" | "Spices & Seasonings" | "Oils & Condiments" | "Frozen" | "Beverages" | "Snacks" | "Leftovers" | "Other",
+  "type": "Raw" | "Packaged" | "Leftover",
+  "confidence": number between 0.0 and 1.0
+}
+
+Rules:
+- Prepared dishes, leftover meals, and cooked food must be category "Leftovers" and type "Leftover"
+- Raw fruits/vegetables must be category "Produce" and type "Raw"
+- Packaged goods must be marked "Packaged"
+- Return ONLY the JSON object, no other text`;
+}

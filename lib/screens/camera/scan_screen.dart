@@ -9,6 +9,8 @@ import '../../models/pantry_item.dart';
 import '../../widgets/loading_overlay.dart';
 import '../../widgets/error_retry_widget.dart';
 
+import '../../services/food_classification_service.dart';
+
 class ScanScreen extends StatefulWidget {
   const ScanScreen({super.key});
 
@@ -20,6 +22,7 @@ class _ScanScreenState extends State<ScanScreen> {
   final ImagePicker _picker = ImagePicker();
   final ApiService _api = ApiService();
   final FirestoreService _firestore = FirestoreService();
+  final FoodClassificationService _classifier = FoodClassificationService();
   XFile? _capturedImage;
   bool _isAnalyzing = false;
   bool _showResults = false;
@@ -44,15 +47,22 @@ class _ScanScreenState extends State<ScanScreen> {
       final file = File(image.path);
       final result = await _api.visionAnalysis(file);
 
-      final items = (result['items'] as List<dynamic>? ?? []).map<Map<String, dynamic>>((item) {
-        return {
-          'name': item['name'] ?? '',
+      final rawItems = result['items'] as List<dynamic>? ?? [];
+      final List<Map<String, dynamic>> items = [];
+
+      for (final item in rawItems) {
+        final rawName = item['name'] ?? '';
+        final classResult = await _classifier.classify(rawName);
+
+        items.add({
+          'name': classResult.canonicalName.isNotEmpty ? classResult.canonicalName : rawName,
           'qty': (item['quantity'] ?? 1).toDouble(),
           'unit': item['unit'] ?? 'pcs',
-          'category': item['category'] ?? 'Other',
+          'category': classResult.category,
+          'type': classResult.type,
           'confirmed': false,
-        };
-      }).toList();
+        });
+      }
 
       if (mounted) {
         setState(() {
@@ -98,19 +108,31 @@ class _ScanScreenState extends State<ScanScreen> {
 
     try {
       final user = FirebaseAuth.instance.currentUser;
+      final existingItems = await _firestore.getPantryItems(_householdId);
+
       for (final item in confirmed) {
-        final pantryItem = PantryItem(
-          id: '',
-          name: item['name'],
-          category: item['category'],
-          quantity: item['qty'].toDouble(),
-          unit: item['unit'],
-          type: 'Raw',
-          dateAdded: DateTime.now(),
-          addedBy: user?.uid ?? '',
-          householdId: _householdId,
-        );
-        await _firestore.addPantryItem(_householdId, pantryItem);
+        final duplicate = FoodClassificationService.findDuplicate(item['name'], existingItems);
+        if (duplicate != null) {
+          final newQty = duplicate.quantity + (item['qty'] as double);
+          await _firestore.updatePantryItem(
+            _householdId,
+            duplicate.id,
+            {'quantity': newQty},
+          );
+        } else {
+          final pantryItem = PantryItem(
+            id: '',
+            name: item['name'],
+            category: item['category'],
+            quantity: item['qty'].toDouble(),
+            unit: item['unit'],
+            type: item['type'] ?? 'Raw',
+            dateAdded: DateTime.now(),
+            addedBy: user?.uid ?? '',
+            householdId: _householdId,
+          );
+          await _firestore.addPantryItem(_householdId, pantryItem);
+        }
       }
 
       if (mounted) {

@@ -121,4 +121,21 @@ class ApiService {
 
     return jsonDecode(response.body);
   }
+
+  Future<Map<String, dynamic>?> classifyFoodItem(String name) async {
+    try {
+      final response = await http.post(
+        Uri.parse('$_baseUrl/gemini/classify'),
+        headers: await _headers(),
+        body: jsonEncode({'name': name}),
+      ).timeout(const Duration(seconds: 4));
+
+      if (response.statusCode == 200) {
+        return jsonDecode(response.body) as Map<String, dynamic>;
+      }
+    } catch (_) {
+      // Return null on network or server error to trigger offline fallback gracefully
+    }
+    return null;
+  }
 }

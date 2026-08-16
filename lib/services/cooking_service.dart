@@ -36,10 +36,23 @@ class CookingService {
           .toList(),
     };
 
-    final result = await _api.estimateConsumption(
-      recipe: recipeMap,
-      currentPantry: pantryMap,
-    );
+    Map<String, dynamic> result;
+    try {
+      result = await _api.estimateConsumption(
+        recipe: recipeMap,
+        currentPantry: pantryMap,
+      );
+    } catch (_) {
+      // Local fallback when API is offline or quota exceeded
+      final fallbackConsumptions = recipe.ingredients.map((ing) {
+        return {
+          'name': ing.name,
+          'quantityConsumed': ing.quantity * servings,
+          'unit': ing.unit,
+        };
+      }).toList();
+      result = {'consumptions': fallbackConsumptions};
+    }
 
     final consumptions = result['consumptions'] as List<dynamic>? ?? [];
 

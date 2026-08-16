@@ -8,6 +8,7 @@ import {
   buildChatSystemPrompt,
   buildRecipeGenerationPrompt,
   buildEstimationPrompt,
+  buildClassificationPrompt,
 } from '../utils/prompts.js';
 
 const router = Router();
@@ -133,7 +134,7 @@ router.post('/estimate', verifyToken, geminiLimiter, async (req, res) => {
     const { recipe, pantry = [] } = req.body;
     if (!recipe) return res.status(400).json({ error: 'Recipe required' });
 
-    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+    const model = genAI.getGenerativeModel({ model: 'gemini-3.5-flash' });
     const result = await model.generateContent(buildEstimationPrompt(recipe, pantry));
     const response = result.response.text();
     const estimate = parseJsonResponse(response);
@@ -141,7 +142,34 @@ router.post('/estimate', verifyToken, geminiLimiter, async (req, res) => {
     res.json(estimate);
   } catch (error) {
     console.error('Estimation error:', error.message);
+    // Fallback if AI call fails or quota exceeded
+    if (req.body?.recipe?.ingredients) {
+      const consumptions = req.body.recipe.ingredients.map((ing) => ({
+        name: ing.name,
+        quantityConsumed: ing.quantity || 1,
+        unit: ing.unit || 'pcs',
+      }));
+      return res.json({ consumptions });
+    }
     res.status(500).json({ error: 'Failed to estimate consumption' });
+  }
+});
+
+// POST /api/gemini/classify — Classify unknown food item
+router.post('/classify', verifyToken, geminiLimiter, async (req, res) => {
+  try {
+    const { name } = req.body;
+    if (!name) return res.status(400).json({ error: 'Name required' });
+
+    const model = genAI.getGenerativeModel({ model: 'gemini-3.5-flash' });
+    const result = await model.generateContent(buildClassificationPrompt(name));
+    const response = result.response.text();
+    const classification = parseJsonResponse(response);
+
+    res.json(classification);
+  } catch (error) {
+    console.error('Classification error:', error.message);
+    res.status(500).json({ error: 'Failed to classify food item' });
   }
 });
 

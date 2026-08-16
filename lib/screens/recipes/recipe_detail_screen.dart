@@ -5,7 +5,6 @@ import '../../services/firestore_service.dart';
 import '../../services/cooking_service.dart';
 import '../../models/recipe.dart';
 import '../../models/pantry_item.dart';
-import '../../models/shopping_item.dart';
 import '../../models/cooking_history.dart';
 import '../../widgets/cooking_confirmation_dialog.dart';
 
@@ -57,12 +56,6 @@ class RecipeDetailScreen extends StatelessWidget {
                     pantryNames.contains(ing.name.toLowerCase().trim()),
               );
             }).toList();
-
-            final allInPantry = enrichedIngredients.every((i) => i.inPantry);
-            final missingCount =
-                enrichedIngredients.where((i) => !i.inPantry).length;
-            final missingIngredients =
-                enrichedIngredients.where((i) => !i.inPantry).toList();
 
             return Scaffold(
               body: CustomScrollView(
@@ -244,71 +237,12 @@ class RecipeDetailScreen extends StatelessWidget {
                           const SizedBox(height: 20),
 
                           // Action buttons
-                          if (allInPantry)
-                            _CookNowButton(
-                              recipe: recipe,
-                              pantryItems: pantryItems,
-                              householdId: householdId,
-                            )
-                          else ...[
-                            SizedBox(
-                              width: double.infinity,
-                              height: 50,
-                              child: OutlinedButton.icon(
-                                onPressed: () async {
-                                  final user =
-                                      FirebaseAuth.instance.currentUser;
-                                  if (user == null) return;
-
-                                  final items = missingIngredients
-                                      .map((ing) => ShoppingItemData(
-                                            name: ing.name,
-                                            quantity: ing.quantity,
-                                            unit: ing.unit,
-                                          ))
-                                      .toList();
-
-                                  final firestore = FirestoreService();
-                                  final shoppingItems = items
-                                      .map((i) => ShoppingItem(
-                                            id: '',
-                                            name: i.name,
-                                            quantity: i.quantity,
-                                            unit: i.unit,
-                                            householdId: householdId,
-                                          ))
-                                      .toList();
-
-                                  await firestore.batchAddShoppingItems(
-                                      householdId, shoppingItems);
-
-                                  if (context.mounted) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text(
-                                            '${items.length} missing items added to shopping list'),
-                                      ),
-                                    );
-                                  }
-                                },
-                                icon:
-                                    const Icon(Icons.add_shopping_cart),
-                                label: const Text(
-                                    'Add Missing to Shopping List'),
-                              ),
-                            ),
-                            const SizedBox(height: 10),
-                            SizedBox(
-                              width: double.infinity,
-                              height: 50,
-                              child: ElevatedButton.icon(
-                                onPressed: null,
-                                icon: const Icon(Icons.restaurant),
-                                label: Text(
-                                    'Almost There ($missingCount missing)'),
-                              ),
-                            ),
-                          ],
+                          _CookNowButton(
+                            recipe: recipe,
+                            pantryItems: pantryItems,
+                            householdId: householdId,
+                            buttonText: 'Kooked!',
+                          ),
                           const SizedBox(height: 40),
                         ],
                       ),
@@ -357,11 +291,13 @@ class _CookNowButton extends StatefulWidget {
   final Recipe recipe;
   final List<PantryItem> pantryItems;
   final String householdId;
+  final String buttonText;
 
   const _CookNowButton({
     required this.recipe,
     required this.pantryItems,
     required this.householdId,
+    this.buttonText = 'Kooked!',
   });
 
   @override
@@ -436,7 +372,7 @@ class _CookNowButtonState extends State<_CookNowButton> {
                     ),
                   )
                 : const Icon(Icons.restaurant),
-            label: Text(_isLoading ? 'Estimating...' : 'Cook Now'),
+            label: Text(_isLoading ? 'Estimating...' : widget.buttonText),
           ),
         ),
       ],

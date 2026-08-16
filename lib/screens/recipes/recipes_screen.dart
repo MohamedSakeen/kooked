@@ -156,99 +156,116 @@ class _RecipesScreenState extends State<RecipesScreen> {
                 return matchCuisine && matchSearch;
               }).toList();
 
-              return Scaffold(
-                body: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
-                      child: TextField(
-                        controller: _searchController,
-                        decoration: InputDecoration(
-                          hintText: 'Search recipes...',
-                          prefixIcon: const Icon(Icons.search, size: 20),
-                          suffixIcon: _searchQuery.isNotEmpty
-                              ? IconButton(
-                                  icon: const Icon(Icons.clear, size: 18),
-                                  onPressed: () {
-                                    _searchController.clear();
-                                    setState(() => _searchQuery = '');
-                                  },
-                                )
-                              : null,
-                          contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 10),
+              return Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+                    child: TextField(
+                      controller: _searchController,
+                      decoration: InputDecoration(
+                        hintText: 'Search recipes...',
+                        prefixIcon: const Icon(Icons.search, size: 20),
+                        suffixIcon: _searchQuery.isNotEmpty
+                            ? IconButton(
+                                icon: const Icon(Icons.clear, size: 18),
+                                onPressed: () {
+                                  _searchController.clear();
+                                  setState(() => _searchQuery = '');
+                                },
+                              )
+                            : null,
+                        contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 10),
+                      ),
+                      onChanged: (val) =>
+                          setState(() => _searchQuery = val),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 46,
+                    child: ListView(
+                      scrollDirection: Axis.horizontal,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 8),
+                      children: [
+                        _buildFilterChip('All'),
+                        ...AppConstants.cuisineTypes.map(
+                          (c) => _buildFilterChip(c),
                         ),
-                        onChanged: (val) =>
-                            setState(() => _searchQuery = val),
-                      ),
+                      ],
                     ),
-                    SizedBox(
-                      height: 46,
-                      child: ListView(
-                        scrollDirection: Axis.horizontal,
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 8),
-                        children: [
-                          _buildFilterChip('All'),
-                          ...AppConstants.cuisineTypes.map(
-                            (c) => _buildFilterChip(c),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Row(
-                        children: [
-                          Text('${filtered.length} recipes',
-                              style: Theme.of(context).textTheme.bodySmall),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Expanded(
-                      child: filtered.isEmpty
-                          ? EmptyState(
-                              icon: Icons.restaurant_menu,
-                              title: 'No recipes found',
-                              subtitle:
-                                  'Try adjusting your filters or generate one from leftover ingredients',
-                            )
-                          : GridView.builder(
-                              padding:
-                                  const EdgeInsets.fromLTRB(10, 0, 10, 80),
-                              gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
-                                childAspectRatio: 0.75,
-                              ),
-                              itemCount: filtered.length,
-                              itemBuilder: (context, index) {
-                                final m = filtered[index];
-                                return RecipeCard(
-                                  title: m.recipe.title,
-                                  cuisine: m.recipe.cuisine,
-                                  totalTimeMinutes: m.recipe.totalTimeMinutes,
-                                  difficulty: m.recipe.difficulty,
-                                  imageUrl: m.recipe.imageUrl,
-                                  isAiGenerated: m.recipe.isAiGenerated,
-                                  allInPantry: m.allInPantry,
-                                  missingCount: m.missingCount,
-                                  onTap: () => context.push(
-                                      '/recipe/${m.recipe.id}'),
-                                );
-                              },
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          '${filtered.length} recipes',
+                          style: Theme.of(context).textTheme.bodySmall,
+                        ),
+                        ElevatedButton.icon(
+                          onPressed: _isGenerating
+                              ? null
+                              : () => _generateAiRecipe(pantryItems),
+                          icon: const Icon(Icons.auto_awesome, size: 16),
+                          label: const Text('Generate from Pantry'),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.primary,
+                            foregroundColor: Colors.white,
+                            elevation: 2,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 14, vertical: 8),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
                             ),
+                            textStyle: const TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-                floatingActionButton: FloatingActionButton.extended(
-                  onPressed: _isGenerating
-                      ? null
-                      : () => _generateAiRecipe(pantryItems),
-                  icon: const Icon(Icons.auto_awesome),
-                  label: const Text('Generate from Pantry'),
-                ),
+                  ),
+                  const SizedBox(height: 4),
+                  Expanded(
+                    child: filtered.isEmpty
+                        ? EmptyState(
+                            icon: Icons.restaurant_menu,
+                            title: 'No recipes found',
+                            subtitle:
+                                'Try adjusting your filters or generate one from leftover ingredients',
+                          )
+                        : GridView.builder(
+                            padding:
+                                const EdgeInsets.fromLTRB(10, 0, 10, 80),
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              mainAxisExtent: 188,
+                              crossAxisSpacing: 8,
+                              mainAxisSpacing: 8,
+                            ),
+                            itemCount: filtered.length,
+                            itemBuilder: (context, index) {
+                              final m = filtered[index];
+                              return RecipeCard(
+                                title: m.recipe.title,
+                                cuisine: m.recipe.cuisine,
+                                totalTimeMinutes: m.recipe.totalTimeMinutes,
+                                difficulty: m.recipe.difficulty,
+                                imageUrl: m.recipe.imageUrl,
+                                isAiGenerated: m.recipe.isAiGenerated,
+                                allInPantry: m.allInPantry,
+                                missingCount: m.missingCount,
+                                onTap: () => context.push(
+                                    '/recipe/${m.recipe.id}'),
+                              );
+                            },
+                          ),
+                  ),
+                ],
               );
             },
           );

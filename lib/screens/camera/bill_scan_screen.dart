@@ -9,6 +9,8 @@ import '../../models/pantry_item.dart';
 import '../../widgets/loading_overlay.dart';
 import '../../widgets/error_retry_widget.dart';
 
+import '../../services/food_classification_service.dart';
+
 class BillScanScreen extends StatefulWidget {
   const BillScanScreen({super.key});
 
@@ -20,6 +22,7 @@ class _BillScanScreenState extends State<BillScanScreen> {
   final ImagePicker _picker = ImagePicker();
   final ApiService _api = ApiService();
   final FirestoreService _firestore = FirestoreService();
+  final FoodClassificationService _classifier = FoodClassificationService();
   XFile? _capturedImage;
   bool _isAnalyzing = false;
   bool _showResults = false;
@@ -43,17 +46,29 @@ class _BillScanScreenState extends State<BillScanScreen> {
     try {
       final file = File(image.path);
       final result = await _api.billOcrScan(file);
+      final existingItems = await _firestore.getPantryItems(_householdId);
 
-      final items = (result['items'] as List<dynamic>? ?? []).map<Map<String, dynamic>>((item) {
-        return {
-          'name': item['name'] ?? '',
+      final rawItems = result['items'] as List<dynamic>? ?? [];
+      final List<Map<String, dynamic>> items = [];
+
+      for (final item in rawItems) {
+        final rawName = item['name'] ?? '';
+        final classResult = await _classifier.classify(rawName);
+        final canonicalName = classResult.canonicalName.isNotEmpty ? classResult.canonicalName : rawName;
+        final duplicate = FoodClassificationService.findDuplicate(canonicalName, existingItems);
+
+        items.add({
+          'name': canonicalName,
           'qty': (item['quantity'] ?? 1).toDouble(),
           'unit': item['unit'] ?? 'pcs',
-          'status': 'new',
-          'existingQty': 0.0,
+          'category': classResult.category,
+          'type': classResult.type,
+          'status': duplicate != null ? 'existing' : 'new',
+          'existingQty': duplicate?.quantity ?? 0.0,
+          'duplicateId': duplicate?.id,
           'confirmed': true,
-        };
-      }).toList();
+        });
+      }
 
       if (mounted) {
         setState(() {
@@ -100,18 +115,27 @@ class _BillScanScreenState extends State<BillScanScreen> {
     try {
       final user = FirebaseAuth.instance.currentUser;
       for (final item in confirmed) {
-        final pantryItem = PantryItem(
-          id: '',
-          name: item['name'],
-          category: 'Other',
-          quantity: item['qty'].toDouble(),
-          unit: item['unit'],
-          type: 'Packaged',
-          dateAdded: DateTime.now(),
-          addedBy: user?.uid ?? '',
-          householdId: _householdId,
-        );
-        await _firestore.addPantryItem(_householdId, pantryItem);
+        if (item['duplicateId'] != null) {
+          final newQty = (item['existingQty'] as double) + (item['qty'] as double);
+          await _firestore.updatePantryItem(
+            _householdId,
+            item['duplicateId'],
+            {'quantity': newQty},
+          );
+        } else {
+          final pantryItem = PantryItem(
+            id: '',
+            name: item['name'],
+            category: item['category'],
+            quantity: item['qty'].toDouble(),
+            unit: item['unit'],
+            type: item['type'] ?? 'Packaged',
+            dateAdded: DateTime.now(),
+            addedBy: user?.uid ?? '',
+            householdId: _householdId,
+          );
+          await _firestore.addPantryItem(_householdId, pantryItem);
+        }
       }
 
       if (mounted) {
