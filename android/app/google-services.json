@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "112296499639",
+    "project_id": "kooked-28d4c",
+    "storage_bucket": "kooked-28d4c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:112296499639:android:a2109b5cd05dea3049f032",
+        "android_client_info": {
+          "package_name": "com.kooked.kooked"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "112296499639-udioes8fsjbpuhup40umpim1gfanesv1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAlbGPedl5HttkMihbCm8mTF3lXq5mF7So"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "112296499639-udioes8fsjbpuhup40umpim1gfanesv1.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "112296499639-9mkbhd79n4s53q2r231q07ma6rj990lh.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.kooked.kooked"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

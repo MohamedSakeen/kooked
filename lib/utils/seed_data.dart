@@ -1,0 +1,73 @@
+import '../models/recipe.dart';
+
+final List<Recipe> sampleRecipes = [
+  Recipe(
+    id: 'sample-1',
+    title: 'Classic Tomato Basil Pasta',
+    cuisine: 'Italian',
+    servings: 2,
+    prepTimeMinutes: 10,
+    cookTimeMinutes: 15,
+    difficulty: 'Easy',
+    imageUrl: 'https://images.unsplash.com/photo-1551183053-bf91a1d81141',
+    isAiGenerated: false,
+    createdAt: DateTime.now(),
+    ingredients: [
+      RecipeIngredient(name: 'Pasta', quantity: 200, unit: 'g'),
+      RecipeIngredient(name: 'Tomatoes', quantity: 3, unit: 'pcs'),
+      RecipeIngredient(name: 'Garlic', quantity: 2, unit: 'cloves'),
+      RecipeIngredient(name: 'Olive Oil', quantity: 2, unit: 'tbsp'),
+      RecipeIngredient(name: 'Salt', quantity: 1, unit: 'tsp'),
+    ],
+    steps: [
+      'Boil pasta in salted water until al dente.',
+      'Sauté chopped garlic and diced tomatoes in olive oil for 5-7 minutes.',
+      'Toss cooked pasta into the tomato sauce and serve hot.',
+    ],
+  ),
+  Recipe(
+    id: 'sample-2',
+    title: 'Fresh Garden Salad',
+    cuisine: 'American',
+    servings: 2,
+    prepTimeMinutes: 10,
+    cookTimeMinutes: 0,
+    difficulty: 'Easy',
+    imageUrl: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd',
+    isAiGenerated: false,
+    createdAt: DateTime.now(),
+    ingredients: [
+      RecipeIngredient(name: 'Lettuce', quantity: 1, unit: 'head'),
+      RecipeIngredient(name: 'Cucumber', quantity: 1, unit: 'pcs'),
+      RecipeIngredient(name: 'Tomatoes', quantity: 2, unit: 'pcs'),
+      RecipeIngredient(name: 'Olive Oil', quantity: 1, unit: 'tbsp'),
+    ],
+    steps: [
+      'Chop lettuce, cucumber, and tomatoes into bite-sized pieces.',
+      'Drizzle with olive oil, toss gently, and serve fresco.',
+    ],
+  ),
+  Recipe(
+    id: 'sample-3',
+    title: 'Fluffy Vegetable Omelette',
+    cuisine: 'French',
+    servings: 1,
+    prepTimeMinutes: 5,
+    cookTimeMinutes: 8,
+    difficulty: 'Easy',
+    imageUrl: 'https://images.unsplash.com/photo-1510693206972-df098062cb71',
+    isAiGenerated: false,
+    createdAt: DateTime.now(),
+    ingredients: [
+      RecipeIngredient(name: 'Eggs', quantity: 3, unit: 'pcs'),
+      RecipeIngredient(name: 'Onions', quantity: 0.5, unit: 'pcs'),
+      RecipeIngredient(name: 'Tomatoes', quantity: 1, unit: 'pcs'),
+      RecipeIngredient(name: 'Butter', quantity: 1, unit: 'tbsp'),
+    ],
+    steps: [
+      'Whisk eggs thoroughly with salt and pepper.',
+      'Sauté chopped onions and tomatoes in butter.',
+      'Pour eggs over vegetables, cook on low heat until set, fold and serve.',
+    ],
+  ),
+];

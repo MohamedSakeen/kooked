@@ -1,0 +1,949 @@
+[
+  {
+    "title": "Tomato Basil Pasta",
+    "cuisine": "Italian",
+    "prepTimeMinutes": 10,
+    "cookTimeMinutes": 15,
+    "servings": 2,
+    "difficulty": "Easy",
+    "ingredients": [
+      {"name": "Pasta", "quantity": 200, "unit": "g"},
+      {"name": "Tomatoes", "quantity": 4, "unit": "pcs"},
+      {"name": "Garlic", "quantity": 3, "unit": "cloves"},
+      {"name": "Olive Oil", "quantity": 2, "unit": "tbsp"},
+      {"name": "Basil", "quantity": 5, "unit": "pcs"},
+      {"name": "Salt", "quantity": 1, "unit": "tsp"}
+    ],
+    "steps": [
+      "Boil pasta in salted water until al dente. Drain and set aside.",
+      "Dice tomatoes finely. Mince garlic.",
+      "Heat olive oil in a pan. Sauté garlic until fragrant.",
+      "Add diced tomatoes and salt. Simmer for 10 minutes.",
+      "Toss pasta in the sauce. Garnish with fresh basil.",
+      "Serve hot."
+    ]
+  },
+  {
+    "title": "Chicken Fried Rice",
+    "cuisine": "Chinese",
+    "prepTimeMinutes": 10,
+    "cookTimeMinutes": 15,
+    "servings": 2,
+    "difficulty": "Easy",
+    "ingredients": [
+      {"name": "Rice", "quantity": 2, "unit": "cups"},
+      {"name": "Chicken Breast", "quantity": 200, "unit": "g"},
+      {"name": "Eggs", "quantity": 2, "unit": "pcs"},
+      {"name": "Soy Sauce", "quantity": 2, "unit": "tbsp"},
+      {"name": "Garlic", "quantity": 2, "unit": "cloves"},
+      {"name": "Green Onion", "quantity": 3, "unit": "pcs"},
+      {"name": "Oil", "quantity": 2, "unit": "tbsp"}
+    ],
+    "steps": [
+      "Cook rice and let it cool. Dice chicken into small pieces.",
+      "Scramble eggs in a hot wok. Set aside.",
+      "Stir-fry chicken until golden. Add garlic.",
+      "Add rice and soy sauce. Toss on high heat.",
+      "Add scrambled eggs and green onions.",
+      "Serve immediately."
+    ]
+  },
+  {
+    "title": "Paneer Butter Masala",
+    "cuisine": "Indian",
+    "prepTimeMinutes": 15,
+    "cookTimeMinutes": 25,
+    "servings": 3,
+    "difficulty": "Medium",
+    "ingredients": [
+      {"name": "Paneer", "quantity": 250, "unit": "g"},
+      {"name": "Tomatoes", "quantity": 4, "unit": "pcs"},
+      {"name": "Onion", "quantity": 2, "unit": "pcs"},
+      {"name": "Butter", "quantity": 2, "unit": "tbsp"},
+      {"name": "Cream", "quantity": 3, "unit": "tbsp"},
+      {"name": "Garlic", "quantity": 3, "unit": "cloves"},
+      {"name": "Ginger", "quantity": 1, "unit": "inch"},
+      {"name": "Chili Powder", "quantity": 1, "unit": "tsp"},
+      {"name": "Garam Masala", "quantity": 1, "unit": "tsp"}
+    ],
+    "steps": [
+      "Boil and blend tomatoes into a smooth puree.",
+      "Sauté diced onions in butter until golden.",
+      "Add ginger-garlic paste and spices. Cook for 2 minutes.",
+      "Add tomato puree and simmer for 15 minutes.",
+      "Add paneer cubes and cream. Simmer 5 more minutes.",
+      "Garnish with cream and serve with naan or rice."
+    ]
+  },
+  {
+    "title": "Vegetable Stir Fry",
+    "cuisine": "Chinese",
+    "prepTimeMinutes": 10,
+    "cookTimeMinutes": 10,
+    "servings": 2,
+    "difficulty": "Easy",
+    "ingredients": [
+      {"name": "Bell Pepper", "quantity": 2, "unit": "pcs"},
+      {"name": "Broccoli", "quantity": 1, "unit": "cups"},
+      {"name": "Carrot", "quantity": 2, "unit": "pcs"},
+      {"name": "Soy Sauce", "quantity": 2, "unit": "tbsp"},
+      {"name": "Garlic", "quantity": 3, "unit": "cloves"},
+      {"name": "Sesame Oil", "quantity": 1, "unit": "tbsp"},
+      {"name": "Cornstarch", "quantity": 1, "unit": "tbsp"}
+    ],
+    "steps": [
+      "Chop all vegetables into bite-sized pieces.",
+      "Mix soy sauce with cornstarch and a splash of water.",
+      "Heat sesame oil in a wok on high heat.",
+      "Stir-fry vegetables starting with carrots, then broccoli and peppers.",
+      "Add garlic and the sauce mixture. Toss for 2 minutes.",
+      "Serve over rice or noodles."
+    ]
+  },
+  {
+    "title": "Chicken Tacos",
+    "cuisine": "Mexican",
+    "prepTimeMinutes": 15,
+    "cookTimeMinutes": 15,
+    "servings": 3,
+    "difficulty": "Easy",
+    "ingredients": [
+      {"name": "Chicken Breast", "quantity": 300, "unit": "g"},
+      {"name": "Tortillas", "quantity": 6, "unit": "pcs"},
+      {"name": "Tomatoes", "quantity": 2, "unit": "pcs"},
+      {"name": "Onion", "quantity": 1, "unit": "pcs"},
+      {"name": "Lettuce", "quantity": 1, "unit": "cups"},
+      {"name": "Cheese", "quantity": 50, "unit": "g"},
+      {"name": "Lime", "quantity": 1, "unit": "pcs"},
+      {"name": "Chili Powder", "quantity": 1, "unit": "tbsp"}
+    ],
+    "steps": [
+      "Season chicken with chili powder, salt, and lime juice.",
+      "Grill or pan-fry chicken until cooked through. Slice thinly.",
+      "Dice tomatoes and onions. Shred lettuce.",
+      "Warm tortillas on a dry pan.",
+      "Assemble tacos with chicken, veggies, cheese, and lime squeeze.",
+      "Serve immediately."
+    ]
+  },
+  {
+    "title": "Pad Thai",
+    "cuisine": "Thai",
+    "prepTimeMinutes": 15,
+    "cookTimeMinutes": 15,
+    "servings": 2,
+    "difficulty": "Medium",
+    "ingredients": [
+      {"name": "Rice Noodles", "quantity": 200, "unit": "g"},
+      {"name": "Shrimp", "quantity": 150, "unit": "g"},
+      {"name": "Eggs", "quantity": 2, "unit": "pcs"},
+      {"name": "Bean Sprouts", "quantity": 1, "unit": "cups"},
+      {"name": "Peanuts", "quantity": 3, "unit": "tbsp"},
+      {"name": "Lime", "quantity": 1, "unit": "pcs"},
+      {"name": "Fish Sauce", "quantity": 2, "unit": "tbsp"},
+      {"name": "Tamarind Paste", "quantity": 1, "unit": "tbsp"}
+    ],
+    "steps": [
+      "Soak rice noodles in hot water for 8 minutes. Drain.",
+      "Mix fish sauce, tamarind paste, and sugar for the sauce.",
+      "Stir-fry shrimp until pink. Set aside.",
+      "Scramble eggs in the same wok.",
+      "Add noodles and sauce. Toss on high heat.",
+      "Add shrimp and bean sprouts. Serve with peanuts and lime."
+    ]
+  },
+  {
+    "title": "Mushroom Risotto",
+    "cuisine": "Italian",
+    "prepTimeMinutes": 10,
+    "cookTimeMinutes": 30,
+    "servings": 2,
+    "difficulty": "Medium",
+    "ingredients": [
+      {"name": "Arborio Rice", "quantity": 200, "unit": "g"},
+      {"name": "Mushrooms", "quantity": 200, "unit": "g"},
+      {"name": "Onion", "quantity": 1, "unit": "pcs"},
+      {"name": "Butter", "quantity": 2, "unit": "tbsp"},
+      {"name": "Parmesan", "quantity": 50, "unit": "g"},
+      {"name": "Vegetable Broth", "quantity": 3, "unit": "cups"},
+      {"name": "White Wine", "quantity": 0.5, "unit": "cups"},
+      {"name": "Garlic", "quantity": 2, "unit": "cloves"}
+    ],
+    "steps": [
+      "Sauté diced onion and garlic in butter until soft.",
+      "Add sliced mushrooms. Cook until golden.",
+      "Add arborio rice and toast for 2 minutes.",
+      "Pour in white wine and stir until absorbed.",
+      "Add broth one ladle at a time, stirring constantly.",
+      "When creamy and al dente, stir in parmesan. Serve."
+    ]
+  },
+  {
+    "title": "Egg Fried Rice",
+    "cuisine": "Chinese",
+    "prepTimeMinutes": 5,
+    "cookTimeMinutes": 10,
+    "servings": 1,
+    "difficulty": "Easy",
+    "ingredients": [
+      {"name": "Rice", "quantity": 1, "unit": "cups"},
+      {"name": "Eggs", "quantity": 3, "unit": "pcs"},
+      {"name": "Soy Sauce", "quantity": 1, "unit": "tbsp"},
+      {"name": "Garlic", "quantity": 2, "unit": "cloves"},
+      {"name": "Green Onion", "quantity": 2, "unit": "pcs"},
+      {"name": "Oil", "quantity": 1, "unit": "tbsp"}
+    ],
+    "steps": [
+      "Use leftover cold rice for best results.",
+      "Scramble eggs in a hot wok. Set aside.",
+      "Sauté garlic in oil. Add rice and soy sauce.",
+      "Toss on high heat for 3 minutes.",
+      "Add eggs back and green onions. Toss and serve."
+    ]
+  },
+  {
+    "title": "Chicken Curry",
+    "cuisine": "Indian",
+    "prepTimeMinutes": 15,
+    "cookTimeMinutes": 30,
+    "servings": 3,
+    "difficulty": "Medium",
+    "ingredients": [
+      {"name": "Chicken Thigh", "quantity": 400, "unit": "g"},
+      {"name": "Onion", "quantity": 2, "unit": "pcs"},
+      {"name": "Tomatoes", "quantity": 3, "unit": "pcs"},
+      {"name": "Garlic", "quantity": 4, "unit": "cloves"},
+      {"name": "Ginger", "quantity": 1, "unit": "inch"},
+      {"name": "Coconut Milk", "quantity": 1, "unit": "cups"},
+      {"name": "Curry Powder", "quantity": 2, "unit": "tbsp"},
+      {"name": "Oil", "quantity": 2, "unit": "tbsp"}
+    ],
+    "steps": [
+      "Cut chicken into bite-sized pieces.",
+      "Sauté onions until golden. Add ginger-garlic paste.",
+      "Add curry powder and cook for 1 minute.",
+      "Add diced tomatoes and cook until soft.",
+      "Add chicken and coconut milk. Simmer 20 minutes.",
+      "Serve with rice or naan."
+    ]
+  },
+  {
+    "title": "Caesar Salad",
+    "cuisine": "Mediterranean",
+    "prepTimeMinutes": 15,
+    "cookTimeMinutes": 5,
+    "servings": 2,
+    "difficulty": "Easy",
+    "ingredients": [
+      {"name": "Lettuce", "quantity": 1, "unit": "heads"},
+      {"name": "Chicken Breast", "quantity": 200, "unit": "g"},
+      {"name": "Parmesan", "quantity": 30, "unit": "g"},
+      {"name": "Bread", "quantity": 2, "unit": "slices"},
+      {"name": "Olive Oil", "quantity": 2, "unit": "tbsp"},
+      {"name": "Lemon", "quantity": 1, "unit": "pcs"},
+      {"name": "Garlic", "quantity": 1, "unit": "cloves"}
+    ],
+    "steps": [
+      "Grill or pan-fry seasoned chicken. Slice when done.",
+      "Toast bread cubes in olive oil with garlic for croutons.",
+      "Tear lettuce into a bowl.",
+      "Add chicken, croutons, and shaved parmesan.",
+      "Dress with olive oil, lemon juice, salt, and pepper."
+    ]
+  },
+  {
+    "title": "Bread Omelette",
+    "cuisine": "Indian",
+    "prepTimeMinutes": 5,
+    "cookTimeMinutes": 5,
+    "servings": 1,
+    "difficulty": "Easy",
+    "ingredients": [
+      {"name": "Eggs", "quantity": 3, "unit": "pcs"},
+      {"name": "Bread", "quantity": 2, "unit": "slices"},
+      {"name": "Onion", "quantity": 1, "unit": "pcs"},
+      {"name": "Tomatoes", "quantity": 1, "unit": "pcs"},
+      {"name": "Green Chili", "quantity": 1, "unit": "pcs"},
+      {"name": "Butter", "quantity": 1, "unit": "tbsp"}
+    ],
+    "steps": [
+      "Beat eggs with diced onion, tomatoes, and green chili.",
+      "Heat butter in a pan.",
+      "Pour egg mixture and place bread slices on top.",
+      "Flip when the bottom sets. Toast both sides.",
+      "Serve hot with ketchup."
+    ]
+  },
+  {
+    "title": "Tom Yum Soup",
+    "cuisine": "Thai",
+    "prepTimeMinutes": 10,
+    "cookTimeMinutes": 15,
+    "servings": 2,
+    "difficulty": "Easy",
+    "ingredients": [
+      {"name": "Shrimp", "quantity": 200, "unit": "g"},
+      {"name": "Mushrooms", "quantity": 100, "unit": "g"},
+      {"name": "Lemongrass", "quantity": 2, "unit": "pcs"},
+      {"name": "Lime", "quantity": 1, "unit": "pcs"},
+      {"name": "Fish Sauce", "quantity": 2, "unit": "tbsp"},
+      {"name": "Chili", "quantity": 3, "unit": "pcs"},
+      {"name": "Cilantro", "quantity": 1, "unit": "bunch"}
+    ],
+    "steps": [
+      "Boil water with lemongrass and chili for 5 minutes.",
+      "Add mushrooms and cook for 3 minutes.",
+      "Add shrimp and cook until pink.",
+      "Season with fish sauce and lime juice.",
+      "Garnish with cilantro. Serve hot."
+    ]
+  },
+  {
+    "title": "Spaghetti Aglio e Olio",
+    "cuisine": "Italian",
+    "prepTimeMinutes": 5,
+    "cookTimeMinutes": 15,
+    "servings": 2,
+    "difficulty": "Easy",
+    "ingredients": [
+      {"name": "Spaghetti", "quantity": 200, "unit": "g"},
+      {"name": "Garlic", "quantity": 6, "unit": "cloves"},
+      {"name": "Olive Oil", "quantity": 4, "unit": "tbsp"},
+      {"name": "Chili Flakes", "quantity": 1, "unit": "tsp"},
+      {"name": "Parsley", "quantity": 2, "unit": "tbsp"},
+      {"name": "Salt", "quantity": 1, "unit": "tsp"}
+    ],
+    "steps": [
+      "Boil spaghetti until al dente. Reserve 1 cup pasta water.",
+      "Thinly slice garlic. Heat olive oil on low.",
+      "Add garlic and chili flakes. Cook until garlic is golden.",
+      "Toss spaghetti with garlic oil and pasta water.",
+      "Garnish with parsley. Serve immediately."
+    ]
+  },
+  {
+    "title": "Chicken Quesadilla",
+    "cuisine": "Mexican",
+    "prepTimeMinutes": 10,
+    "cookTimeMinutes": 10,
+    "servings": 2,
+    "difficulty": "Easy",
+    "ingredients": [
+      {"name": "Tortillas", "quantity": 2, "unit": "pcs"},
+      {"name": "Chicken Breast", "quantity": 200, "unit": "g"},
+      {"name": "Cheese", "quantity": 100, "unit": "g"},
+      {"name": "Bell Pepper", "quantity": 1, "unit": "pcs"},
+      {"name": "Onion", "quantity": 1, "unit": "pcs"},
+      {"name": "Butter", "quantity": 1, "unit": "tbsp"}
+    ],
+    "steps": [
+      "Cook and shred seasoned chicken.",
+      "Sauté diced peppers and onions.",
+      "Place tortilla in a buttered pan.",
+      "Add cheese, chicken, veggies, and more cheese.",
+      "Top with second tortilla. Cook until golden on both sides.",
+      "Cut into wedges and serve with salsa."
+    ]
+  },
+  {
+    "title": "Pav Bhaji",
+    "cuisine": "Indian",
+    "prepTimeMinutes": 15,
+    "cookTimeMinutes": 25,
+    "servings": 3,
+    "difficulty": "Medium",
+    "ingredients": [
+      {"name": "Potato", "quantity": 3, "unit": "pcs"},
+      {"name": "Onion", "quantity": 2, "unit": "pcs"},
+      {"name": "Tomatoes", "quantity": 3, "unit": "pcs"},
+      {"name": "Bell Pepper", "quantity": 1, "unit": "pcs"},
+      {"name": "Butter", "quantity": 3, "unit": "tbsp"},
+      {"name": "Pav Bhaji Masala", "quantity": 2, "unit": "tbsp"},
+      {"name": "Bread Rolls", "quantity": 4, "unit": "pcs"}
+    ],
+    "steps": [
+      "Boil and mash potatoes.",
+      "Sauté onions and bell pepper in butter.",
+      "Add tomatoes and cook until soft.",
+      "Add pav bhaji masala and mashed potatoes.",
+      "Mash everything together. Cook 5 minutes.",
+      "Toast pav rolls in butter. Serve with bhaji."
+    ]
+  },
+  {
+    "title": "Greek Salad",
+    "cuisine": "Mediterranean",
+    "prepTimeMinutes": 10,
+    "cookTimeMinutes": 0,
+    "servings": 2,
+    "difficulty": "Easy",
+    "ingredients": [
+      {"name": "Cucumber", "quantity": 1, "unit": "pcs"},
+      {"name": "Tomatoes", "quantity": 3, "unit": "pcs"},
+      {"name": "Onion", "quantity": 1, "unit": "pcs"},
+      {"name": "Feta Cheese", "quantity": 100, "unit": "g"},
+      {"name": "Olives", "quantity": 0.5, "unit": "cups"},
+      {"name": "Olive Oil", "quantity": 3, "unit": "tbsp"},
+      {"name": "Lemon", "quantity": 0.5, "unit": "pcs"}
+    ],
+    "steps": [
+      "Dice cucumber, tomatoes, and onion.",
+      "Combine in a bowl with olives.",
+      "Top with crumbled feta cheese.",
+      "Drizzle with olive oil and lemon juice.",
+      "Season with salt, pepper, and oregano. Serve."
+    ]
+  },
+  {
+    "title": "French Toast",
+    "cuisine": "American",
+    "prepTimeMinutes": 5,
+    "cookTimeMinutes": 10,
+    "servings": 2,
+    "difficulty": "Easy",
+    "ingredients": [
+      {"name": "Bread", "quantity": 4, "unit": "slices"},
+      {"name": "Eggs", "quantity": 2, "unit": "pcs"},
+      {"name": "Milk", "quantity": 0.5, "unit": "cups"},
+      {"name": "Butter", "quantity": 1, "unit": "tbsp"},
+      {"name": "Cinnamon", "quantity": 1, "unit": "tsp"},
+      {"name": "Vanilla Extract", "quantity": 1, "unit": "tsp"}
+    ],
+    "steps": [
+      "Beat eggs with milk, cinnamon, and vanilla.",
+      "Dip bread slices in the egg mixture.",
+      "Cook in buttered pan until golden on both sides.",
+      "Serve with syrup, fruit, or honey."
+    ]
+  },
+  {
+    "title": "Chicken Biryani",
+    "cuisine": "Indian",
+    "prepTimeMinutes": 30,
+    "cookTimeMinutes": 30,
+    "servings": 4,
+    "difficulty": "Hard",
+    "ingredients": [
+      {"name": "Basmati Rice", "quantity": 2, "unit": "cups"},
+      {"name": "Chicken Thigh", "quantity": 500, "unit": "g"},
+      {"name": "Onion", "quantity": 3, "unit": "pcs"},
+      {"name": "Yogurt", "quantity": 1, "unit": "cups"},
+      {"name": "Tomatoes", "quantity": 2, "unit": "pcs"},
+      {"name": "Ginger", "quantity": 1, "unit": "inch"},
+      {"name": "Garlic", "quantity": 4, "unit": "cloves"},
+      {"name": "Biryani Masala", "quantity": 2, "unit": "tbsp"},
+      {"name": "Ghee", "quantity": 3, "unit": "tbsp"},
+      {"name": "Mint", "quantity": 0.5, "unit": "cups"}
+    ],
+    "steps": [
+      "Soak basmati rice for 30 minutes. Parboil until 70% done.",
+      "Marinate chicken with yogurt, ginger-garlic, and spices for 30 min.",
+      "Fry sliced onions in ghee until deep golden.",
+      "Cook marinated chicken for 10 minutes.",
+      "Layer: chicken, rice, fried onions, mint. Repeat.",
+      "Cover and cook on low heat for 20 minutes (dum). Serve."
+    ]
+  },
+  {
+    "title": "Pasta Carbonara",
+    "cuisine": "Italian",
+    "prepTimeMinutes": 10,
+    "cookTimeMinutes": 15,
+    "servings": 2,
+    "difficulty": "Medium",
+    "ingredients": [
+      {"name": "Spaghetti", "quantity": 200, "unit": "g"},
+      {"name": "Bacon", "quantity": 100, "unit": "g"},
+      {"name": "Eggs", "quantity": 2, "unit": "pcs"},
+      {"name": "Parmesan", "quantity": 50, "unit": "g"},
+      {"name": "Garlic", "quantity": 2, "unit": "cloves"},
+      {"name": "Black Pepper", "quantity": 1, "unit": "tsp"}
+    ],
+    "steps": [
+      "Boil spaghetti until al dente.",
+      "Cook diced bacon until crispy. Add garlic briefly.",
+      "Whisk eggs with parmesan and black pepper.",
+      "Toss hot pasta with bacon (off heat).",
+      "Quickly stir in egg mixture. The heat cooks it gently.",
+      "Serve immediately with extra parmesan."
+    ]
+  },
+  {
+    "title": "Butter Chicken",
+    "cuisine": "Indian",
+    "prepTimeMinutes": 20,
+    "cookTimeMinutes": 25,
+    "servings": 3,
+    "difficulty": "Medium",
+    "ingredients": [
+      {"name": "Chicken Breast", "quantity": 400, "unit": "g"},
+      {"name": "Tomatoes", "quantity": 4, "unit": "pcs"},
+      {"name": "Butter", "quantity": 3, "unit": "tbsp"},
+      {"name": "Cream", "quantity": 0.5, "unit": "cups"},
+      {"name": "Onion", "quantity": 1, "unit": "pcs"},
+      {"name": "Garlic", "quantity": 3, "unit": "cloves"},
+      {"name": "Ginger", "quantity": 1, "unit": "inch"},
+      {"name": "Kashmiri Chili", "quantity": 2, "unit": "tsp"},
+      {"name": "Garam Masala", "quantity": 1, "unit": "tsp"},
+      {"name": "Kasuri Methi", "quantity": 1, "unit": "tbsp"}
+    ],
+    "steps": [
+      "Marinate chicken with yogurt and spices for 30 minutes.",
+      "Grill or pan-fry chicken. Set aside.",
+      "Sauté onions, ginger, garlic in butter.",
+      "Add tomatoes and chili powder. Cook until mushy.",
+      "Blend into a smooth sauce. Return to pan.",
+      "Add chicken, cream, and kasuri methi. Simmer 5 min. Serve."
+    ]
+  },
+  {
+    "title": "Sushi Bowl",
+    "cuisine": "Japanese",
+    "prepTimeMinutes": 20,
+    "cookTimeMinutes": 15,
+    "servings": 2,
+    "difficulty": "Medium",
+    "ingredients": [
+      {"name": "Sushi Rice", "quantity": 2, "unit": "cups"},
+      {"name": "Salmon", "quantity": 200, "unit": "g"},
+      {"name": "Cucumber", "quantity": 1, "unit": "pcs"},
+      {"name": "Avocado", "quantity": 1, "unit": "pcs"},
+      {"name": "Soy Sauce", "quantity": 2, "unit": "tbsp"},
+      {"name": "Rice Vinegar", "quantity": 2, "unit": "tbsp"},
+      {"name": "Sesame Seeds", "quantity": 1, "unit": "tbsp"},
+      {"name": "Nori", "quantity": 2, "unit": "sheets"}
+    ],
+    "steps": [
+      "Cook sushi rice and season with rice vinegar.",
+      "Slice salmon, cucumber, and avocado.",
+      "Divide rice into bowls.",
+      "Top with salmon, cucumber, and avocado.",
+      "Drizzle with soy sauce and sprinkle sesame seeds.",
+      "Add nori strips. Serve."
+    ]
+  },
+  {
+    "title": "Vegetable Biryani",
+    "cuisine": "Indian",
+    "prepTimeMinutes": 20,
+    "cookTimeMinutes": 25,
+    "servings": 3,
+    "difficulty": "Medium",
+    "ingredients": [
+      {"name": "Basmati Rice", "quantity": 1.5, "unit": "cups"},
+      {"name": "Carrot", "quantity": 2, "unit": "pcs"},
+      {"name": "Potato", "quantity": 2, "unit": "pcs"},
+      {"name": "Green Peas", "quantity": 1, "unit": "cups"},
+      {"name": "Onion", "quantity": 2, "unit": "pcs"},
+      {"name": "Yogurt", "quantity": 0.5, "unit": "cups"},
+      {"name": "Biryani Masala", "quantity": 2, "unit": "tbsp"},
+      {"name": "Ghee", "quantity": 2, "unit": "tbsp"},
+      {"name": "Mint", "quantity": 0.5, "unit": "cups"}
+    ],
+    "steps": [
+      "Parboil basmati rice until 70% done.",
+      "Sauté onions in ghee. Add chopped vegetables.",
+      "Add yogurt and biryani masala. Cook 5 minutes.",
+      "Layer vegetables and rice with mint.",
+      "Cover and cook on low for 15 minutes.",
+      "Fluff gently and serve."
+    ]
+  },
+  {
+    "title": "Shakshuka",
+    "cuisine": "Mediterranean",
+    "prepTimeMinutes": 10,
+    "cookTimeMinutes": 15,
+    "servings": 2,
+    "difficulty": "Easy",
+    "ingredients": [
+      {"name": "Eggs", "quantity": 4, "unit": "pcs"},
+      {"name": "Tomatoes", "quantity": 4, "unit": "pcs"},
+      {"name": "Onion", "quantity": 1, "unit": "pcs"},
+      {"name": "Bell Pepper", "quantity": 1, "unit": "pcs"},
+      {"name": "Garlic", "quantity": 3, "unit": "cloves"},
+      {"name": "Cumin", "quantity": 1, "unit": "tsp"},
+      {"name": "Paprika", "quantity": 1, "unit": "tsp"},
+      {"name": "Olive Oil", "quantity": 2, "unit": "tbsp"}
+    ],
+    "steps": [
+      "Sauté diced onion and pepper in olive oil.",
+      "Add garlic, cumin, and paprika. Cook 1 minute.",
+      "Add crushed tomatoes. Simmer 10 minutes.",
+      "Make wells and crack eggs into the sauce.",
+      "Cover and cook until eggs are set to your liking.",
+      "Serve with crusty bread."
+    ]
+  },
+  {
+    "title": "Chicken Shawarma Wrap",
+    "cuisine": "Middle Eastern",
+    "prepTimeMinutes": 20,
+    "cookTimeMinutes": 15,
+    "servings": 2,
+    "difficulty": "Medium",
+    "ingredients": [
+      {"name": "Chicken Thigh", "quantity": 300, "unit": "g"},
+      {"name": "Tortillas", "quantity": 2, "unit": "pcs"},
+      {"name": "Yogurt", "quantity": 0.5, "unit": "cups"},
+      {"name": "Garlic", "quantity": 3, "unit": "cloves"},
+      {"name": "Lemon", "quantity": 1, "unit": "pcs"},
+      {"name": "Cumin", "quantity": 1, "unit": "tsp"},
+      {"name": "Paprika", "quantity": 1, "unit": "tsp"},
+      {"name": "Cucumber", "quantity": 1, "unit": "pcs"}
+    ],
+    "steps": [
+      "Marinate chicken with yogurt, garlic, lemon, and spices.",
+      "Grill or pan-fry until charred and cooked through.",
+      "Slice chicken thinly.",
+      "Warm tortillas.",
+      "Fill with chicken, sliced cucumber, and yogurt sauce.",
+      "Wrap tightly and serve."
+    ]
+  },
+  {
+    "title": "Miso Ramen",
+    "cuisine": "Japanese",
+    "prepTimeMinutes": 10,
+    "cookTimeMinutes": 20,
+    "servings": 2,
+    "difficulty": "Medium",
+    "ingredients": [
+      {"name": "Ramen Noodles", "quantity": 200, "unit": "g"},
+      {"name": "Chicken Breast", "quantity": 200, "unit": "g"},
+      {"name": "Miso Paste", "quantity": 2, "unit": "tbsp"},
+      {"name": "Soy Sauce", "quantity": 1, "unit": "tbsp"},
+      {"name": "Eggs", "quantity": 2, "unit": "pcs"},
+      {"name": "Green Onion", "quantity": 3, "unit": "pcs"},
+      {"name": "Garlic", "quantity": 2, "unit": "cloves"},
+      {"name": "Ginger", "quantity": 1, "unit": "inch"}
+    ],
+    "steps": [
+      "Cook ramen noodles. Set aside.",
+      "Sauté garlic and ginger. Add 4 cups water and miso paste.",
+      "Add soy sauce and sliced chicken. Simmer until cooked.",
+      "Soft-boil eggs separately (6 minutes).",
+      "Assemble bowls: noodles, broth, chicken, halved egg.",
+      "Garnish with green onions. Serve hot."
+    ]
+  },
+  {
+    "title": "Black Bean Tacos",
+    "cuisine": "Mexican",
+    "prepTimeMinutes": 10,
+    "cookTimeMinutes": 10,
+    "servings": 2,
+    "difficulty": "Easy",
+    "ingredients": [
+      {"name": "Black Beans", "quantity": 1, "unit": "cups"},
+      {"name": "Tortillas", "quantity": 4, "unit": "pcs"},
+      {"name": "Avocado", "quantity": 1, "unit": "pcs"},
+      {"name": "Tomatoes", "quantity": 1, "unit": "pcs"},
+      {"name": "Onion", "quantity": 1, "unit": "pcs"},
+      {"name": "Lime", "quantity": 1, "unit": "pcs"},
+      {"name": "Cilantro", "quantity": 1, "unit": "bunch"}
+    ],
+    "steps": [
+      "Heat and mash black beans with cumin and garlic.",
+      "Dice tomatoes and onion. Slice avocado.",
+      "Warm tortillas.",
+      "Fill with beans, veggies, and avocado.",
+      "Squeeze lime and add cilantro. Serve."
+    ]
+  },
+  {
+    "title": "Chicken Noodle Soup",
+    "cuisine": "American",
+    "prepTimeMinutes": 10,
+    "cookTimeMinutes": 25,
+    "servings": 3,
+    "difficulty": "Easy",
+    "ingredients": [
+      {"name": "Chicken Breast", "quantity": 250, "unit": "g"},
+      {"name": "Egg Noodles", "quantity": 200, "unit": "g"},
+      {"name": "Carrot", "quantity": 2, "unit": "pcs"},
+      {"name": "Celery", "quantity": 2, "unit": "stalks"},
+      {"name": "Onion", "quantity": 1, "unit": "pcs"},
+      {"name": "Garlic", "quantity": 2, "unit": "cloves"},
+      {"name": "Chicken Broth", "quantity": 6, "unit": "cups"}
+    ],
+    "steps": [
+      "Dice onion, carrots, and celery.",
+      "Sauté vegetables in a pot for 5 minutes.",
+      "Add broth and bring to a boil.",
+      "Add chicken breast. Cook until done. Shred it.",
+      "Add noodles and cook until tender.",
+      "Season and serve hot."
+    ]
+  },
+  {
+    "title": "Caprese Salad",
+    "cuisine": "Italian",
+    "prepTimeMinutes": 10,
+    "cookTimeMinutes": 0,
+    "servings": 2,
+    "difficulty": "Easy",
+    "ingredients": [
+      {"name": "Tomatoes", "quantity": 3, "unit": "pcs"},
+      {"name": "Mozzarella", "quantity": 200, "unit": "g"},
+      {"name": "Basil", "quantity": 10, "unit": "pcs"},
+      {"name": "Olive Oil", "quantity": 2, "unit": "tbsp"},
+      {"name": "Balsamic Vinegar", "quantity": 1, "unit": "tbsp"}
+    ],
+    "steps": [
+      "Slice tomatoes and mozzarella into rounds.",
+      "Alternate slices on a plate with basil leaves.",
+      "Drizzle with olive oil and balsamic vinegar.",
+      "Season with salt and pepper. Serve."
+    ]
+  },
+  {
+    "title": "Aloo Paratha",
+    "cuisine": "Indian",
+    "prepTimeMinutes": 20,
+    "cookTimeMinutes": 20,
+    "servings": 3,
+    "difficulty": "Medium",
+    "ingredients": [
+      {"name": "Wheat Flour", "quantity": 2, "unit": "cups"},
+      {"name": "Potato", "quantity": 3, "unit": "pcs"},
+      {"name": "Onion", "quantity": 1, "unit": "pcs"},
+      {"name": "Green Chili", "quantity": 2, "unit": "pcs"},
+      {"name": "Cumin", "quantity": 1, "unit": "tsp"},
+      {"name": "Ghee", "quantity": 3, "unit": "tbsp"},
+      {"name": "Salt", "quantity": 1, "unit": "tsp"}
+    ],
+    "steps": [
+      "Boil and mash potatoes. Mix with diced onion, chili, and spices.",
+      "Make a soft dough with flour, water, and salt.",
+      "Divide dough into balls. Stuff each with potato filling.",
+      "Roll out into flat circles.",
+      "Cook on a hot tawa with ghee until golden spots appear.",
+      "Serve hot with yogurt or pickle."
+    ]
+  },
+  {
+    "title": "Tuna Salad Sandwich",
+    "cuisine": "American",
+    "prepTimeMinutes": 10,
+    "cookTimeMinutes": 0,
+    "servings": 1,
+    "difficulty": "Easy",
+    "ingredients": [
+      {"name": "Canned Tuna", "quantity": 1, "unit": "cans"},
+      {"name": "Bread", "quantity": 2, "unit": "slices"},
+      {"name": "Mayonnaise", "quantity": 2, "unit": "tbsp"},
+      {"name": "Onion", "quantity": 0.25, "unit": "pcs"},
+      {"name": "Celery", "quantity": 1, "unit": "stalks"},
+      {"name": "Lemon", "quantity": 0.5, "unit": "pcs"}
+    ],
+    "steps": [
+      "Drain tuna and place in a bowl.",
+      "Add mayonnaise, diced onion, and celery.",
+      "Squeeze lemon juice and mix well.",
+      "Spread on bread slices and close sandwich.",
+      "Serve with chips or a side salad."
+    ]
+  },
+  {
+    "title": "Chicken Satay",
+    "cuisine": "Thai",
+    "prepTimeMinutes": 20,
+    "cookTimeMinutes": 10,
+    "servings": 2,
+    "difficulty": "Medium",
+    "ingredients": [
+      {"name": "Chicken Breast", "quantity": 300, "unit": "g"},
+      {"name": "Peanut Butter", "quantity": 3, "unit": "tbsp"},
+      {"name": "Soy Sauce", "quantity": 2, "unit": "tbsp"},
+      {"name": "Lime", "quantity": 1, "unit": "pcs"},
+      {"name": "Garlic", "quantity": 2, "unit": "cloves"},
+      {"name": "Ginger", "quantity": 1, "unit": "inch"},
+      {"name": "Coconut Milk", "quantity": 0.25, "unit": "cups"}
+    ],
+    "steps": [
+      "Slice chicken into strips. Marinate with soy sauce, garlic, ginger.",
+      "Thread onto skewers.",
+      "Grill or pan-fry until cooked through.",
+      "Make peanut sauce: heat peanut butter, coconut milk, lime, and soy.",
+      "Serve chicken skewers with peanut sauce."
+    ]
+  },
+  {
+    "title": "Vegetable Soup",
+    "cuisine": "American",
+    "prepTimeMinutes": 10,
+    "cookTimeMinutes": 20,
+    "servings": 3,
+    "difficulty": "Easy",
+    "ingredients": [
+      {"name": "Carrot", "quantity": 2, "unit": "pcs"},
+      {"name": "Potato", "quantity": 2, "unit": "pcs"},
+      {"name": "Celery", "quantity": 2, "unit": "stalks"},
+      {"name": "Onion", "quantity": 1, "unit": "pcs"},
+      {"name": "Tomatoes", "quantity": 2, "unit": "pcs"},
+      {"name": "Garlic", "quantity": 3, "unit": "cloves"},
+      {"name": "Vegetable Broth", "quantity": 5, "unit": "cups"},
+      {"name": "Olive Oil", "quantity": 2, "unit": "tbsp"}
+    ],
+    "steps": [
+      "Dice all vegetables.",
+      "Sauté onion and garlic in olive oil.",
+      "Add carrots, celery, and potato. Cook 3 minutes.",
+      "Add broth and tomatoes. Bring to a boil.",
+      "Simmer until vegetables are tender.",
+      "Season and serve with bread."
+    ]
+  },
+  {
+    "title": "Chicken Tikka Masala",
+    "cuisine": "Indian",
+    "prepTimeMinutes": 20,
+    "cookTimeMinutes": 25,
+    "servings": 3,
+    "difficulty": "Medium",
+    "ingredients": [
+      {"name": "Chicken Breast", "quantity": 400, "unit": "g"},
+      {"name": "Yogurt", "quantity": 0.5, "unit": "cups"},
+      {"name": "Tomatoes", "quantity": 4, "unit": "pcs"},
+      {"name": "Onion", "quantity": 1, "unit": "pcs"},
+      {"name": "Garlic", "quantity": 3, "unit": "cloves"},
+      {"name": "Ginger", "quantity": 1, "unit": "inch"},
+      {"name": "Cream", "quantity": 0.25, "unit": "cups"},
+      {"name": "Garam Masala", "quantity": 2, "unit": "tsp"},
+      {"name": "Kashmiri Chili", "quantity": 1, "unit": "tsp"}
+    ],
+    "steps": [
+      "Marinate chicken chunks in yogurt and spices for 30 minutes.",
+      "Grill or broil chicken until charred.",
+      "Sauté onions, ginger, garlic. Add tomato puree.",
+      "Add garam masala and chili. Cook 15 minutes.",
+      "Add grilled chicken and cream. Simmer 5 minutes.",
+      "Serve with rice or naan."
+    ]
+  },
+  {
+    "title": "Kimchi Fried Rice",
+    "cuisine": "Korean",
+    "prepTimeMinutes": 5,
+    "cookTimeMinutes": 10,
+    "servings": 1,
+    "difficulty": "Easy",
+    "ingredients": [
+      {"name": "Rice", "quantity": 2, "unit": "cups"},
+      {"name": "Kimchi", "quantity": 1, "unit": "cups"},
+      {"name": "Eggs", "quantity": 2, "unit": "pcs"},
+      {"name": "Sesame Oil", "quantity": 1, "unit": "tbsp"},
+      {"name": "Soy Sauce", "quantity": 1, "unit": "tbsp"},
+      {"name": "Green Onion", "quantity": 2, "unit": "pcs"}
+    ],
+    "steps": [
+      "Chop kimchi into small pieces.",
+      "Heat sesame oil. Sauté kimchi for 2 minutes.",
+      "Add cold rice and soy sauce. Stir-fry on high.",
+      "Push rice aside. Scramble eggs in the same pan.",
+      "Mix everything together. Top with green onions.",
+      "Serve with extra kimchi on the side."
+    ]
+  },
+  {
+    "title": "Falafel Bowl",
+    "cuisine": "Middle Eastern",
+    "prepTimeMinutes": 15,
+    "cookTimeMinutes": 15,
+    "servings": 2,
+    "difficulty": "Medium",
+    "ingredients": [
+      {"name": "Chickpeas", "quantity": 2, "unit": "cups"},
+      {"name": "Onion", "quantity": 1, "unit": "pcs"},
+      {"name": "Garlic", "quantity": 3, "unit": "cloves"},
+      {"name": "Parsley", "quantity": 1, "unit": "cups"},
+      {"name": "Cumin", "quantity": 1, "unit": "tsp"},
+      {"name": "Olive Oil", "quantity": 3, "unit": "tbsp"},
+      {"name": "Tahini", "quantity": 2, "unit": "tbsp"},
+      {"name": "Lemon", "quantity": 1, "unit": "pcs"}
+    ],
+    "steps": [
+      "Blend chickpeas, onion, garlic, parsley, and cumin into a paste.",
+      "Form into small patties or balls.",
+      "Shallow fry in olive oil until golden and crispy.",
+      "Make tahini sauce with lemon juice and water.",
+      "Serve falafel in a bowl with sauce, veggies, and rice."
+    ]
+  },
+  {
+    "title": "Chicken Burrito Bowl",
+    "cuisine": "Mexican",
+    "prepTimeMinutes": 15,
+    "cookTimeMinutes": 15,
+    "servings": 2,
+    "difficulty": "Easy",
+    "ingredients": [
+      {"name": "Chicken Breast", "quantity": 300, "unit": "g"},
+      {"name": "Rice", "quantity": 1, "unit": "cups"},
+      {"name": "Black Beans", "quantity": 1, "unit": "cups"},
+      {"name": "Avocado", "quantity": 1, "unit": "pcs"},
+      {"name": "Tomatoes", "quantity": 2, "unit": "pcs"},
+      {"name": "Lime", "quantity": 1, "unit": "pcs"},
+      {"name": "Cilantro", "quantity": 1, "unit": "bunch"},
+      {"name": "Chili Powder", "quantity": 1, "unit": "tbsp"}
+    ],
+    "steps": [
+      "Season chicken with chili powder and lime. Cook and slice.",
+      "Cook rice with lime juice and cilantro.",
+      "Heat black beans with cumin.",
+      "Assemble bowls: rice, beans, chicken, diced tomatoes, avocado.",
+      "Squeeze lime on top. Serve."
+    ]
+  },
+  {
+    "title": "Pesto Pasta",
+    "cuisine": "Italian",
+    "prepTimeMinutes": 10,
+    "cookTimeMinutes": 12,
+    "servings": 2,
+    "difficulty": "Easy",
+    "ingredients": [
+      {"name": "Pasta", "quantity": 200, "unit": "g"},
+      {"name": "Basil", "quantity": 2, "unit": "cups"},
+      {"name": "Pine Nuts", "quantity": 3, "unit": "tbsp"},
+      {"name": "Parmesan", "quantity": 50, "unit": "g"},
+      {"name": "Garlic", "quantity": 2, "unit": "cloves"},
+      {"name": "Olive Oil", "quantity": 0.25, "unit": "cups"},
+      {"name": "Salt", "quantity": 1, "unit": "tsp"}
+    ],
+    "steps": [
+      "Cook pasta until al dente. Reserve pasta water.",
+      "Blend basil, pine nuts, parmesan, and garlic.",
+      "Slowly add olive oil while blending.",
+      "Toss pasta with pesto and pasta water.",
+      "Serve with extra parmesan."
+    ]
+  },
+  {
+    "title": "Sweet Potato Curry",
+    "cuisine": "Indian",
+    "prepTimeMinutes": 10,
+    "cookTimeMinutes": 25,
+    "servings": 3,
+    "difficulty": "Easy",
+    "ingredients": [
+      {"name": "Sweet Potato", "quantity": 3, "unit": "pcs"},
+      {"name": "Coconut Milk", "quantity": 1, "unit": "cups"},
+      {"name": "Onion", "quantity": 1, "unit": "pcs"},
+      {"name": "Garlic", "quantity": 3, "unit": "cloves"},
+      {"name": "Ginger", "quantity": 1, "unit": "inch"},
+      {"name": "Curry Powder", "quantity": 2, "unit": "tbsp"},
+      {"name": "Spinach", "quantity": 2, "unit": "cups"},
+      {"name": "Oil", "quantity": 1, "unit": "tbsp"}
+    ],
+    "steps": [
+      "Peel and cube sweet potatoes.",
+      "Sauté onion, garlic, and ginger in oil.",
+      "Add curry powder. Cook 1 minute.",
+      "Add sweet potatoes and coconut milk.",
+      "Simmer until potatoes are tender (15-20 min).",
+      "Stir in spinach until wilted. Serve with rice."
+    ]
+  }
+]
