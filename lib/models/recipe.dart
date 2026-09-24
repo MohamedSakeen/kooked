@@ -14,9 +14,16 @@ class RecipeIngredient {
   });
 
   factory RecipeIngredient.fromMap(Map<String, dynamic> map) {
+    final rawQty = map['quantity'];
+    double qty = 0.0;
+    if (rawQty is num) {
+      qty = rawQty.toDouble();
+    } else if (rawQty != null) {
+      qty = double.tryParse(rawQty.toString()) ?? 0.0;
+    }
     return RecipeIngredient(
       name: map['name'] ?? '',
-      quantity: (map['quantity'] ?? 0).toDouble(),
+      quantity: qty,
       unit: map['unit'] ?? '',
       inPantry: map['inPantry'] ?? false,
     );
@@ -71,6 +78,10 @@ class Recipe {
 
   factory Recipe.fromFirestore(DocumentSnapshot doc) {
     final data = doc.data() as Map<String, dynamic>;
+    final rawPrep = data['prepTimeMinutes'];
+    final rawCook = data['cookTimeMinutes'];
+    final rawServings = data['servings'];
+
     return Recipe(
       id: doc.id,
       title: data['title'] ?? '',
@@ -83,9 +94,15 @@ class Recipe {
               .toList() ??
           [],
       cuisine: data['cuisine'] ?? 'Other',
-      prepTimeMinutes: data['prepTimeMinutes'] ?? 0,
-      cookTimeMinutes: data['cookTimeMinutes'] ?? 0,
-      servings: data['servings'] ?? 1,
+      prepTimeMinutes: (rawPrep is num)
+          ? rawPrep.toInt()
+          : int.tryParse(rawPrep?.toString() ?? '') ?? 0,
+      cookTimeMinutes: (rawCook is num)
+          ? rawCook.toInt()
+          : int.tryParse(rawCook?.toString() ?? '') ?? 0,
+      servings: (rawServings is num)
+          ? rawServings.toInt()
+          : int.tryParse(rawServings?.toString() ?? '') ?? 1,
       imageUrl: data['imageUrl'],
       difficulty: data['difficulty'] ?? 'Easy',
       isAiGenerated: data['isAiGenerated'] ?? false,

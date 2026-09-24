@@ -202,12 +202,17 @@ class _CookingConfirmationDialogState
             onTap: () {
               setState(() {
                 final newQty = _editedIngredients[index].quantityConsumed - 0.5;
-                _editedIngredients[index] = CookedIngredient(
+                final finalQty = newQty > 0 ? newQty : 0.0;
+                final updated = CookedIngredient(
                   name: ing.name,
-                  quantityConsumed: newQty > 0 ? newQty : 0,
+                  quantityConsumed: finalQty,
                   unit: ing.unit,
                   pantryItemId: ing.pantryItemId,
                 );
+                _editedIngredients[index] = updated;
+                try {
+                  widget.ingredients[index] = updated;
+                } catch (_) {}
               });
             },
           ),
@@ -228,12 +233,16 @@ class _CookingConfirmationDialogState
             onTap: () {
               setState(() {
                 final newQty = _editedIngredients[index].quantityConsumed + 0.5;
-                _editedIngredients[index] = CookedIngredient(
+                final updated = CookedIngredient(
                   name: ing.name,
                   quantityConsumed: newQty,
                   unit: ing.unit,
                   pantryItemId: ing.pantryItemId,
                 );
+                _editedIngredients[index] = updated;
+                try {
+                  widget.ingredients[index] = updated;
+                } catch (_) {}
               });
             },
           ),

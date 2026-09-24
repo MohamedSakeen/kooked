@@ -67,7 +67,7 @@ export function buildRecipeGenerationPrompt(ingredients) {
     .map((i) => `- ${i.name}: ${i.quantity} ${i.unit}`)
     .join('\n');
 
-  return `Generate a recipe using these available ingredients:
+  return `Generate a delicious recipe using these available ingredients:
 ${ingredientList}
 
 Return a JSON object with this exact structure:
@@ -85,9 +85,12 @@ Return a JSON object with this exact structure:
 }
 
 Rules:
-- Max 8 ingredients, prefer using what's available
+- Max 8 ingredients, prioritize using what is available
 - Keep prep + cook time under 45 minutes
-- Return ONLY the JSON object, no other text`;
+- "quantity" MUST be a pure number (e.g. 2, 0.5, 100), NEVER fractions or strings like "1/2" or "a pinch"
+- "unit" MUST be one of: "pcs", "g", "kg", "tbsp", "tsp", "cup", "ml"
+- "prepTimeMinutes" and "cookTimeMinutes" MUST be integers
+- Return ONLY the JSON object, no markdown ticks or additional commentary`;
 }
 
 export function buildEstimationPrompt(recipe, pantry) {

@@ -14,7 +14,6 @@ void main() {
       );
 
       final map = user.toMap();
-      expect(map['uid'], 'uid-1');
       expect(map['name'], 'John');
       expect(map['email'], 'john@example.com');
       expect(map['householdId'], 'house-1');

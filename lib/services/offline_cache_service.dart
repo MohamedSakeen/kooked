@@ -1,27 +1,36 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:hive_ce/hive.dart';
+import 'package:hive_ce_flutter/hive_flutter.dart';
 import '../models/pantry_item.dart';
 
 class OfflineCacheService {
   static const String _pantryBox = 'pantry_cache';
   static const String _syncQueueBox = 'sync_queue';
-  late Box<String> _pantryCache;
-  late Box<String> _syncQueue;
+  Box<String>? _pantryCache;
+  Box<String>? _syncQueue;
   bool _isInitialized = false;
 
   bool get isInitialized => _isInitialized;
 
   Future<void> init() async {
     if (_isInitialized) return;
-    _pantryCache = await Hive.openBox<String>(_pantryBox);
-    _syncQueue = await Hive.openBox<String>(_syncQueueBox);
-    _isInitialized = true;
+    try {
+      await Hive.initFlutter();
+      _pantryCache = await Hive.openBox<String>(_pantryBox);
+      _syncQueue = await Hive.openBox<String>(_syncQueueBox);
+      _isInitialized = true;
+    } catch (e) {
+      debugPrint('Hive offline cache init error: $e');
+    }
   }
 
   // ─── Pantry Cache ────────────────────────────────────────────────
 
   Future<void> cachePantry(String householdId, List<PantryItem> items) async {
     if (!_isInitialized) await init();
+    if (_pantryCache == null) return;
+
     final jsonList = items.map((item) {
       return jsonEncode({
         'id': item.id,
@@ -36,12 +45,12 @@ class OfflineCacheService {
         'householdId': item.householdId,
       });
     }).toList();
-    await _pantryCache.put(householdId, jsonEncode(jsonList));
+    await _pantryCache!.put(householdId, jsonEncode(jsonList));
   }
 
   List<PantryItem> getCachedPantry(String householdId) {
-    if (!_isInitialized) return [];
-    final raw = _pantryCache.get(householdId);
+    if (!_isInitialized || _pantryCache == null) return [];
+    final raw = _pantryCache!.get(householdId);
     if (raw == null) return [];
 
     final List<dynamic> jsonList = jsonDecode(raw);
@@ -63,30 +72,38 @@ class OfflineCacheService {
   }
 
   bool hasCache(String householdId) {
-    if (!_isInitialized) return false;
-    return _pantryCache.containsKey(householdId);
+    if (!_isInitialized || _pantryCache == null) return false;
+    return _pantryCache!.containsKey(householdId);
   }
 
   // ─── Sync Queue ──────────────────────────────────────────────────
 
   Future<void> queueOperation(Map<String, dynamic> operation) async {
+    if (!_isInitialized) await init();
+    if (_syncQueue == null) return;
     final key = DateTime.now().millisecondsSinceEpoch.toString();
-    await _syncQueue.put(key, jsonEncode(operation));
+    await _syncQueue!.put(key, jsonEncode(operation));
   }
 
   List<Map<String, dynamic>> getPendingOperations() {
-    return _syncQueue.values.map((e) {
+    if (!_isInitialized || _syncQueue == null) return [];
+    return _syncQueue!.values.map((e) {
       return jsonDecode(e) as Map<String, dynamic>;
     }).toList();
   }
 
   Future<void> clearSyncQueue() async {
-    await _syncQueue.clear();
+    if (_syncQueue != null) {
+      await _syncQueue!.clear();
+    }
   }
 
   Future<void> removeOperation(String key) async {
-    await _syncQueue.delete(key);
+    if (_syncQueue != null) {
+      await _syncQueue!.delete(key);
+    }
   }
 
-  List<String> get pendingKeys => _syncQueue.keys.cast<String>().toList();
+  List<String> get pendingKeys =>
+      _syncQueue?.keys.cast<String>().toList() ?? [];
 }

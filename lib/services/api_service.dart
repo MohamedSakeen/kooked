@@ -6,9 +6,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class ApiService {
   static String get _baseUrl {
+    const customUrl = String.fromEnvironment('API_BASE_URL');
+    if (customUrl.isNotEmpty) return customUrl;
+
     if (kIsWeb) {
       return 'http://localhost:3000/api';
-    } else if (Platform.isAndroid) {
+    } else if (!kIsWeb && Platform.isAndroid) {
       return 'http://10.0.2.2:3000/api';
     } else {
       return 'http://localhost:3000/api';

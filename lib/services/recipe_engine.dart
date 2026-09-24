@@ -67,13 +67,13 @@ class RecipeEngine {
       final missingCount = missing.length;
       final totalIngredients = recipe.ingredients.length;
       final allInPantry = missingCount == 0;
-      // High score given when most ingredients exist in pantry (especially leftovers)
+      // Match score: fraction of ingredients available in pantry (0.0 to 1.0)
       final matchScore = totalIngredients > 0
-          ? ((availableCount * 2) - missingCount).toDouble()
+          ? (availableCount / totalIngredients)
           : 0.0;
 
-      // Allow recipes matching available pantry items even if some ingredients are missing
-      if (availableCount == 0 && totalIngredients > 0) continue;
+      // Only include Cook Now and Almost There (missing <= 5 ingredients)
+      if (missingCount > 5) continue;
 
       // Mark available ingredients
       final enrichedIngredients = recipe.ingredients.map((ing) {
