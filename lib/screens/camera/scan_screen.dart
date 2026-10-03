@@ -31,7 +31,7 @@ class _ScanScreenState extends State<ScanScreen> {
   List<Map<String, dynamic>> _detectedItems = [];
 
   String get _householdId =>
-      FirebaseAuth.instance.currentUser?.uid ?? 'demo';
+      FirebaseAuth.instance.currentUser?.uid ?? 'unauthenticated';
 
   Future<void> _captureImage(ImageSource source) async {
     final image = await _picker.pickImage(source: source);

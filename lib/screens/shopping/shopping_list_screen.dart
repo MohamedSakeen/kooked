@@ -19,7 +19,7 @@ class _ShoppingListScreenState extends State<ShoppingListScreen> {
 
   String get _householdId {
     final user = FirebaseAuth.instance.currentUser;
-    return user?.uid ?? 'demo';
+    return user?.uid ?? 'unauthenticated';
   }
 
   @override

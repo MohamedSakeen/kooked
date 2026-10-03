@@ -10,7 +10,7 @@ class SustainabilityScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final householdId = FirebaseAuth.instance.currentUser?.uid ?? 'demo';
+    final householdId = FirebaseAuth.instance.currentUser?.uid ?? 'unauthenticated';
     final firestore = FirestoreService();
 
     return Scaffold(

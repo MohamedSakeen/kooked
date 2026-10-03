@@ -36,12 +36,12 @@ class _AddItemScreenState extends State<AddItemScreen> {
   FoodClassificationResult? _classificationResult;
 
   static const List<String> _units = [
-    'pcs', 'g', 'kg', 'ml', 'L', 'cups', 'tbsp', 'tsp', 'oz', 'lb', 'bowl', 'servings', 'packet', 'bunch', 'slice',
+    'pcs', 'g', 'kg', 'ml', 'L', 'cups', 'tbsp', 'tsp', 'oz', 'lb', 'lbs', 'bowl', 'servings', 'packet', 'bunch', 'slice',
   ];
 
   String get _householdId {
     final user = FirebaseAuth.instance.currentUser;
-    return user?.uid ?? 'demo';
+    return user?.uid ?? 'unauthenticated';
   }
 
   @override

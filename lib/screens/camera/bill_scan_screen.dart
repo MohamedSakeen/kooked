@@ -31,7 +31,7 @@ class _BillScanScreenState extends State<BillScanScreen> {
   List<Map<String, dynamic>> _extractedItems = [];
 
   String get _householdId =>
-      FirebaseAuth.instance.currentUser?.uid ?? 'demo';
+      FirebaseAuth.instance.currentUser?.uid ?? 'unauthenticated';
 
   Future<void> _pickImage(ImageSource source) async {
     final image = await _picker.pickImage(source: source);

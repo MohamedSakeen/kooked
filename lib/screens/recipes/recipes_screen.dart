@@ -134,7 +134,7 @@ class _RecipesScreenState extends State<RecipesScreen> {
 
           // Get pantry items for matching
           final householdId =
-              FirebaseAuth.instance.currentUser?.uid ?? 'demo';
+              FirebaseAuth.instance.currentUser?.uid ?? 'unauthenticated';
 
           return StreamBuilder<List<PantryItem>>(
             stream: _firestore.pantryStream(householdId),

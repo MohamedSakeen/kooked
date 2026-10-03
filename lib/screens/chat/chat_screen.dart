@@ -29,7 +29,7 @@ class _ChatScreenState extends State<ChatScreen> {
   ];
 
   String get _householdId =>
-      FirebaseAuth.instance.currentUser?.uid ?? 'demo';
+      FirebaseAuth.instance.currentUser?.uid ?? 'unauthenticated';
 
   Future<List<Map<String, dynamic>>> _getPantryContext() async {
     try {

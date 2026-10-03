@@ -27,7 +27,7 @@ class _PantryScreenState extends State<PantryScreen> {
   String get _householdId {
     final user = FirebaseAuth.instance.currentUser;
     // TODO: Replace with actual householdId from user profile
-    return user?.uid ?? 'demo';
+    return user?.uid ?? 'unauthenticated';
   }
 
   @override

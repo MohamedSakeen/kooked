@@ -16,7 +16,7 @@ class RecipeDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final firestore = FirestoreService();
-    final householdId = FirebaseAuth.instance.currentUser?.uid ?? 'demo';
+    final householdId = FirebaseAuth.instance.currentUser?.uid ?? 'unauthenticated';
 
     return StreamBuilder<List<Recipe>>(
       stream: firestore.recipesStream(),
