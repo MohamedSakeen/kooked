@@ -5,17 +5,42 @@ import 'package:http/http.dart' as http;
 import 'package:firebase_auth/firebase_auth.dart';
 
 class ApiService {
-  static String get _baseUrl {
+  static String? _resolvedBaseUrl;
+
+  /// Dynamically discovers and caches the working API endpoint.
+  /// Works across Android physical devices (USB/Wi-Fi), Android Emulator, and Web.
+  static Future<String> getBaseUrl() async {
     const customUrl = String.fromEnvironment('API_BASE_URL');
     if (customUrl.isNotEmpty) return customUrl;
+    if (_resolvedBaseUrl != null) return _resolvedBaseUrl!;
 
     if (kIsWeb) {
-      return 'http://localhost:3000/api';
-    } else if (!kIsWeb && Platform.isAndroid) {
-      return 'http://10.0.2.2:3000/api';
-    } else {
-      return 'http://localhost:3000/api';
+      _resolvedBaseUrl = 'http://localhost:3000/api';
+      return _resolvedBaseUrl!;
     }
+
+    final candidates = [
+      'http://127.0.0.1:3000/api',   // Physical device via ADB reverse & iOS
+      'http://localhost:3000/api',   // Local host
+      'http://10.0.2.2:3000/api',    // Android Emulator
+      'http://192.168.1.9:3000/api', // Local Wi-Fi network fallback
+    ];
+
+    for (final candidate in candidates) {
+      try {
+        final res = await http
+            .get(Uri.parse('$candidate/health'))
+            .timeout(const Duration(milliseconds: 600));
+        if (res.statusCode == 200) {
+          _resolvedBaseUrl = candidate;
+          debugPrint('ApiService resolved to: $candidate');
+          return candidate;
+        }
+      } catch (_) {}
+    }
+
+    _resolvedBaseUrl = Platform.isAndroid ? 'http://127.0.0.1:3000/api' : 'http://localhost:3000/api';
+    return _resolvedBaseUrl!;
   }
 
   Future<Map<String, String>> _headers() async {
@@ -27,11 +52,12 @@ class ApiService {
   }
 
   Future<Map<String, dynamic>> visionAnalysis(File imageFile) async {
+    final baseUrl = await getBaseUrl();
     final bytes = await imageFile.readAsBytes();
     final base64Image = base64Encode(bytes);
 
     final response = await http.post(
-      Uri.parse('$_baseUrl/gemini/vision'),
+      Uri.parse('$baseUrl/gemini/vision'),
       headers: await _headers(),
       body: jsonEncode({
         'image': base64Image,
@@ -43,6 +69,7 @@ class ApiService {
     );
 
     if (response.statusCode != 200) {
+      _resolvedBaseUrl = null; // Invalidate cache on failure to allow redetection
       throw Exception('Vision analysis failed: ${response.body}');
     }
 
@@ -50,16 +77,18 @@ class ApiService {
   }
 
   Future<Map<String, dynamic>> billOcrScan(File imageFile) async {
+    final baseUrl = await getBaseUrl();
     final bytes = await imageFile.readAsBytes();
     final base64Image = base64Encode(bytes);
 
     final response = await http.post(
-      Uri.parse('$_baseUrl/gemini/ocr'),
+      Uri.parse('$baseUrl/gemini/ocr'),
       headers: await _headers(),
       body: jsonEncode({'image': base64Image}),
     );
 
     if (response.statusCode != 200) {
+      _resolvedBaseUrl = null;
       throw Exception('OCR scan failed: ${response.body}');
     }
 
@@ -71,8 +100,9 @@ class ApiService {
     required List<Map<String, dynamic>> pantryContext,
     bool chefMode = false,
   }) async {
+    final baseUrl = await getBaseUrl();
     final response = await http.post(
-      Uri.parse('$_baseUrl/gemini/chat'),
+      Uri.parse('$baseUrl/gemini/chat'),
       headers: await _headers(),
       body: jsonEncode({
         'message': message,
@@ -82,6 +112,7 @@ class ApiService {
     );
 
     if (response.statusCode != 200) {
+      _resolvedBaseUrl = null;
       throw Exception('Chat failed: ${response.body}');
     }
 
@@ -92,13 +123,15 @@ class ApiService {
   Future<Map<String, dynamic>> generateRecipe({
     required List<Map<String, dynamic>> availableIngredients,
   }) async {
+    final baseUrl = await getBaseUrl();
     final response = await http.post(
-      Uri.parse('$_baseUrl/gemini/recipe'),
+      Uri.parse('$baseUrl/gemini/recipe'),
       headers: await _headers(),
       body: jsonEncode({'ingredients': availableIngredients}),
     );
 
     if (response.statusCode != 200) {
+      _resolvedBaseUrl = null;
       throw Exception('Recipe generation failed: ${response.body}');
     }
 
@@ -109,8 +142,9 @@ class ApiService {
     required Map<String, dynamic> recipe,
     required List<Map<String, dynamic>> currentPantry,
   }) async {
+    final baseUrl = await getBaseUrl();
     final response = await http.post(
-      Uri.parse('$_baseUrl/gemini/estimate'),
+      Uri.parse('$baseUrl/gemini/estimate'),
       headers: await _headers(),
       body: jsonEncode({
         'recipe': recipe,
@@ -119,6 +153,7 @@ class ApiService {
     );
 
     if (response.statusCode != 200) {
+      _resolvedBaseUrl = null;
       throw Exception('Estimation failed: ${response.body}');
     }
 
@@ -127,8 +162,9 @@ class ApiService {
 
   Future<Map<String, dynamic>?> classifyFoodItem(String name) async {
     try {
+      final baseUrl = await getBaseUrl();
       final response = await http.post(
-        Uri.parse('$_baseUrl/gemini/classify'),
+        Uri.parse('$baseUrl/gemini/classify'),
         headers: await _headers(),
         body: jsonEncode({'name': name}),
       ).timeout(const Duration(seconds: 4));
@@ -137,7 +173,7 @@ class ApiService {
         return jsonDecode(response.body) as Map<String, dynamic>;
       }
     } catch (_) {
-      // Return null on network or server error to trigger offline fallback gracefully
+      _resolvedBaseUrl = null;
     }
     return null;
   }

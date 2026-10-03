@@ -19,7 +19,6 @@ class _ChatScreenState extends State<ChatScreen> {
   final _firestore = FirestoreService();
   bool _isTyping = false;
   bool _chefMode = false;
-  bool _hasError = false;
 
   final List<ChatMessage> _messages = [
     ChatMessage.ai(
@@ -54,7 +53,6 @@ class _ChatScreenState extends State<ChatScreen> {
     setState(() {
       _messages.add(ChatMessage.user(text));
       _isTyping = true;
-      _hasError = false;
     });
     _inputController.clear();
     _scrollToBottom();
@@ -81,7 +79,6 @@ class _ChatScreenState extends State<ChatScreen> {
             'Sorry, I couldn\'t process that request. Please check your connection and try again.',
           ));
           _isTyping = false;
-          _hasError = true;
         });
         _scrollToBottom();
       }

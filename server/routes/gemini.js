@@ -13,7 +13,27 @@ import {
 
 const router = Router();
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
-const GEMINI_MODEL = process.env.GEMINI_MODEL || 'gemini-1.5-flash';
+const CANDIDATE_MODELS = [
+  process.env.GEMINI_MODEL || 'gemini-3.1-flash-lite',
+  'gemini-flash-latest',
+  'gemini-3.5-flash',
+  'gemini-3.8-flash',
+];
+
+async function generateContentWithFallback(contents, options = {}) {
+  let lastError = null;
+  for (const modelName of CANDIDATE_MODELS) {
+    try {
+      const model = genAI.getGenerativeModel({ model: modelName, ...options });
+      const result = await model.generateContent(contents);
+      return result.response.text();
+    } catch (err) {
+      lastError = err;
+      console.warn(`Model ${modelName} failed (${err.message.substring(0, 80)}). Trying fallback model...`);
+    }
+  }
+  throw lastError;
+}
 
 function parseJsonResponse(text) {
   const match = text.match(/\{[\s\S]*\}|\[[\s\S]*\]/);
@@ -53,8 +73,7 @@ router.post('/vision', verifyToken, geminiLimiter, async (req, res) => {
     const { image, prompt } = req.body;
     if (!image) return res.status(400).json({ error: 'Image data required' });
 
-    const model = genAI.getGenerativeModel({ model: GEMINI_MODEL });
-    const result = await model.generateContent([
+    const responseText = await generateContentWithFallback([
       prompt || buildVisionPrompt(),
       {
         inlineData: {
@@ -64,9 +83,7 @@ router.post('/vision', verifyToken, geminiLimiter, async (req, res) => {
       },
     ]);
 
-    const response = result.response.text();
-    const items = parseJsonResponse(response);
-
+    const items = parseJsonResponse(responseText);
     res.json({ items: Array.isArray(items) ? items : items.items || [] });
   } catch (error) {
     console.error('Vision error:', error.message);

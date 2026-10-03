@@ -81,10 +81,20 @@ class _BillScanScreenState extends State<BillScanScreen> {
       if (mounted) {
         setState(() {
           _isAnalyzing = false;
-          _errorMessage = 'Failed to read receipt: ${e.toString()}';
+          _errorMessage = _friendlyErrorMessage(e);
         });
       }
     }
+  }
+
+  String _friendlyErrorMessage(Object error) {
+    final text = error.toString();
+    if (text.contains('Connection refused') ||
+        text.contains('Failed to connect') ||
+        text.contains('ClientException')) {
+      return 'Cannot reach AI server. Please make sure the backend server is running (run "npm start" in the server folder).';
+    }
+    return 'Failed to read receipt: ${text.replaceFirst('Exception: ', '')}';
   }
 
   void _toggleConfirm(int index) {
