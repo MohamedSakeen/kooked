@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kooked/services/local_vision_service.dart';
+import 'package:kooked/services/scan_vision_types.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -52,11 +53,25 @@ void main() {
       expect(modelFile.lengthSync(), greaterThan(10000000), reason: 'Model size should be ~47 MB');
     });
 
-    test('LocalVisionService instantiates cleanly and handles uninitialized state gracefully', () async {
+    test('reports FAILED with a real reason instead of an empty list', () async {
       final service = LocalVisionService();
-      // On non-initialized or non-existent file, it returns empty list without throwing
-      final results = await service.analyzeFoodImage(File('non_existent.jpg'));
-      expect(results, isEmpty);
+
+      final result = await service.analyzeFoodImage(File('non_existent.jpg'));
+
+      expect(result.isFailed, isTrue);
+      expect(result.isEmpty, isFalse);
+      expect(result.status, ScanVisionStatus.failed);
+      expect(result.failure, isNotNull);
+      expect(result.failure!.reason, isNotEmpty);
+
+      // On a host without the native TFLite library the model never loads, so
+      // the failure is reported at initialization. Either way it is FAILED,
+      // never a silently-empty SUCCESS-shaped result.
+      expect(
+        result.failure!.stage,
+        anyOf(ScanVisionStage.initialization, ScanVisionStage.decode),
+      );
+
       service.dispose();
     });
   });

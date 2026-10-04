@@ -10,7 +10,10 @@ import '../../models/pantry_item.dart';
 import '../../widgets/loading_overlay.dart';
 import '../../widgets/error_retry_widget.dart';
 import '../../services/food_classification_service.dart';
-import '../../services/local_vision_service.dart';
+import '../../services/local_produce_vision_service.dart';
+import '../../widgets/detection_overlay_painter.dart';
+import '../../services/scan_vision_engine.dart';
+import '../../services/scan_vision_types.dart';
 
 class ScanScreen extends StatefulWidget {
   const ScanScreen({super.key});
@@ -24,14 +27,33 @@ class _ScanScreenState extends State<ScanScreen> {
   final ApiService _api = ApiService();
   final FirestoreService _firestore = FirestoreService();
   final FoodClassificationService _classifier = FoodClassificationService();
-  final LocalVisionService _localVision = LocalVisionService();
+  final LocalProduceVisionService _localVision =
+      LocalProduceVisionService();
+
+  /// Ordered resolution of the two engines.
+  ///
+  /// Defaults to on-device first so scanning works with no network, which is
+  /// the point of shipping both models. Gemini remains reachable as the
+  /// fallback for frames the on-device models cannot resolve.
+  ///
+  /// All four orderings are supported by [ScanVisionEngine]; this is simply
+  /// the policy the screen currently runs.
+  final ScanVisionStrategy _strategy = ScanVisionStrategy.localFirst;
+
+  late final ScanVisionEngine _vision = ScanVisionEngine(
+    runLocal: _runLocalAnalysis,
+    runCloud: _runCloudAnalysis,
+  );
 
   XFile? _capturedImage;
   bool _isAnalyzing = false;
   String _analyzingMessage = 'Gemini AI is analyzing your food items...';
-  String _activeModelSource = 'Gemini 1.5 Flash Vision AI';
+  ScanModelSource? _modelSource;
   bool _showResults = false;
+  LocalProduceResult? _localResult;
+  Size? _analysisImageSize;
   String? _errorMessage;
+  String? _noticeMessage;
 
   List<Map<String, dynamic>> _detectedItems = [];
 
@@ -49,22 +71,83 @@ class _ScanScreenState extends State<ScanScreen> {
     setState(() {
       _capturedImage = image;
       _errorMessage = null;
+      _noticeMessage = null;
     });
 
     await _runAnalysis(File(image.path));
   }
 
+  /// Runs on-device analysis and records which local model answered.
+  Future<ScanVisionResult> _runLocalAnalysis(
+    File file, {
+    double? minConfidence,
+  }) async {
+    final LocalProduceResult outcome = await _localVision.analyze(
+      file,
+      minConfidence: minConfidence,
+    );
+    _localResult = outcome;
+
+    final diagnostics = outcome.result.diagnostics;
+    final width = diagnostics.imageWidth;
+    final height = diagnostics.imageHeight;
+    _analysisImageSize = (width != null && height != null)
+        ? Size(width.toDouble(), height.toDouble())
+        : null;
+
+    return outcome.result;
+  }
+
   Future<void> _runAnalysis(File file) async {
     setState(() {
       _isAnalyzing = true;
-      _analyzingMessage = 'Gemini AI is analyzing ingredients & portions...';
+      _analyzingMessage = _strategy.analyzingMessage;
       _errorMessage = null;
+      _noticeMessage = null;
     });
+
+    final result = await _vision.analyze(file, strategy: _strategy);
+
+    if (kDebugMode) {
+      debugPrint('[Scan] ${result.status.name} via ${result.source.name}');
+      debugPrint('[Scan] ${result.diagnostics.describe()}');
+      final fallbackFailure = result.fallbackFailure;
+      if (fallbackFailure != null) {
+        debugPrint('[Scan] fallback failure: $fallbackFailure');
+      }
+    }
+
+    if (!mounted) return;
+
+    setState(() {
+      _isAnalyzing = false;
+      _errorMessage = null;
+      _noticeMessage = null;
+      _localResult = result.source.isLocal ? _localResult : null;
+
+      if (result.isSuccess) {
+        _detectedItems = result.items;
+        _modelSource = result.source;
+        _showResults = true;
+      } else if (result.isEmpty) {
+        _detectedItems = [];
+        _modelSource = result.source;
+        _showResults = false;
+        _noticeMessage = result.userMessage;
+      } else {
+        _detectedItems = [];
+        _showResults = false;
+        _errorMessage = result.userMessage;
+      }
+    });
+  }
+
+  Future<List<Map<String, dynamic>>> _runCloudAnalysis(File file) async {
+    final List<Map<String, dynamic>> items = [];
 
     try {
       final result = await _api.visionAnalysis(file);
       final rawItems = result['items'] as List<dynamic>? ?? [];
-      final List<Map<String, dynamic>> items = [];
 
       for (final item in rawItems) {
         final rawName = item['name'] ?? '';
@@ -81,46 +164,14 @@ class _ScanScreenState extends State<ScanScreen> {
           'category': classResult.category,
           'type': classResult.type,
           'confirmed': true,
+          'modelSource': ScanModelSource.cloud.name,
         });
       }
-
-      if (mounted) {
-        setState(() {
-          _detectedItems = items;
-          _activeModelSource = 'Gemini 1.5 Flash Vision AI';
-          _isAnalyzing = false;
-          _showResults = true;
-        });
-      }
-    } catch (e) {
-      // Offline fallback: if Gemini server is unreachable and on mobile, run offline food classifier
-      if (!kIsWeb) {
-        try {
-          if (mounted) {
-            setState(() {
-              _analyzingMessage = 'Server unreachable. Running offline Produce AI model...';
-            });
-          }
-          final localItems = await _localVision.analyzeFoodImage(file);
-          if (localItems.isNotEmpty && mounted) {
-            setState(() {
-              _detectedItems = localItems;
-              _activeModelSource = 'Offline Food Classifier (On-Device)';
-              _isAnalyzing = false;
-              _showResults = true;
-            });
-            return;
-          }
-        } catch (_) {}
-      }
-
-      if (mounted) {
-        setState(() {
-          _isAnalyzing = false;
-          _errorMessage = _friendlyErrorMessage(e);
-        });
-      }
+    } on Object catch (error) {
+      throw ScanVisionException(_friendlyErrorMessage(error));
     }
+
+    return items;
   }
 
   String _friendlyErrorMessage(Object error) {
@@ -213,6 +264,10 @@ class _ScanScreenState extends State<ScanScreen> {
       _showResults = false;
       _isAnalyzing = false;
       _errorMessage = null;
+      _noticeMessage = null;
+      _modelSource = null;
+      _localResult = null;
+      _analysisImageSize = null;
       _detectedItems = [];
     });
   }
@@ -245,6 +300,8 @@ class _ScanScreenState extends State<ScanScreen> {
               message: _errorMessage,
               onRetry: _reset,
             )
+          else if (_noticeMessage != null)
+            _buildNotice(_noticeMessage!)
           else if (!_showResults && _capturedImage == null)
             _buildCameraView()
           else if (_capturedImage != null && !_showResults)
@@ -254,6 +311,54 @@ class _ScanScreenState extends State<ScanScreen> {
           if (_isAnalyzing)
             LoadingOverlay(message: _analyzingMessage),
         ],
+      ),
+    );
+  }
+
+  Widget _buildNotice(String message) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(32),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              width: 80,
+              height: 80,
+              decoration: BoxDecoration(
+                color: AppColors.textSecondary.withValues(alpha: 0.08),
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(
+                Icons.no_food_outlined,
+                size: 38,
+                color: AppColors.textSecondary,
+              ),
+            ),
+            const SizedBox(height: 20),
+            Text(
+              message,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                color: AppColors.textPrimary,
+              ),
+            ),
+            const SizedBox(height: 8),
+            const Text(
+              'Try a clearer photo of the ingredients.',
+              textAlign: TextAlign.center,
+              style: TextStyle(color: AppColors.textSecondary),
+            ),
+            const SizedBox(height: 24),
+            ElevatedButton.icon(
+              onPressed: _reset,
+              icon: const Icon(Icons.refresh),
+              label: const Text('Scan again'),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -361,6 +466,84 @@ class _ScanScreenState extends State<ScanScreen> {
     );
   }
 
+  /// Names the model that actually produced the verdict.
+  String _engineBannerText(bool usedLocal) {
+    if (!usedLocal) return 'Recognized with Gemini 1.5 Flash Vision AI';
+    final engine = _localResult?.engine;
+    return engine == null
+        ? 'Recognized On-Device'
+        : 'Recognized On-Device - ${engine.displayName}';
+  }
+
+  /// Detection boxes normalized to 0..1 of the source image.
+  List<Rect> get _detectionBoxes {
+    final Size? imageSize = _analysisImageSize;
+    if (imageSize == null) return const <Rect>[];
+
+    final List<Rect> boxes = <Rect>[];
+    for (final Map<String, dynamic> item in _detectedItems) {
+      final Object? raw = item['boxes'];
+      if (raw is! List) continue;
+      for (final Object? entry in raw) {
+        if (entry is! List || entry.length != 4) continue;
+        final double left = (entry[0] as num).toDouble();
+        final double top = (entry[1] as num).toDouble();
+        final double width = (entry[2] as num).toDouble();
+        final double height = (entry[3] as num).toDouble();
+        boxes.add(
+          Rect.fromLTWH(
+            left / imageSize.width,
+            top / imageSize.height,
+            width / imageSize.width,
+            height / imageSize.height,
+          ),
+        );
+      }
+    }
+    return boxes;
+  }
+
+  Widget _buildBoxOverlay() {
+    return CustomPaint(
+      painter: DetectionOverlayPainter(
+        boxes: _detectionBoxes,
+        imageSize: _analysisImageSize!,
+      ),
+    );
+  }
+
+  /// Warns that some detected classes are not backed by held-out evidence.
+  Widget _buildLowReliabilityWarning() {
+    final List<Map<String, dynamic>> weak =
+        _localResult!.lowReliabilityItems;
+    final Set<String> names = <String>{
+      for (final Map<String, dynamic> item in weak) item['name'] as String,
+    };
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 9),
+      decoration: BoxDecoration(
+        color: Colors.amber.withValues(alpha: 0.12),
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: Colors.amber.withValues(alpha: 0.5)),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(Icons.info_outline, size: 15, color: Colors.amber[900]),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Text(
+              'Less certain: ${names.join(', ')}. These are easy to confuse, '
+                  'so check the name and quantity before saving.',
+              style: TextStyle(fontSize: 11.5, color: Colors.amber[900]),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildResults() {
     final selectedCount =
         _detectedItems.where((i) => i['confirmed'] == true).length;
@@ -369,60 +552,70 @@ class _ScanScreenState extends State<ScanScreen> {
       children: [
         if (_capturedImage != null)
           Container(
-            height: 140,
+            height: 190,
             width: double.infinity,
             margin: const EdgeInsets.fromLTRB(16, 12, 16, 0),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(12),
-              child: Image.file(
-                File(_capturedImage!.path),
-                fit: BoxFit.cover,
+              child: Stack(
+                fit: StackFit.expand,
+                children: [
+                  Image.file(
+                    File(_capturedImage!.path),
+                    fit: BoxFit.cover,
+                  ),
+                  if (_detectionBoxes.isNotEmpty) _buildBoxOverlay(),
+                ],
               ),
             ),
+          ),
+
+        if (_localResult?.hasLowReliability ?? false)
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 10, 16, 0),
+            child: _buildLowReliabilityWarning(),
           ),
 
         // Engine Status Banner
         Padding(
           padding: const EdgeInsets.fromLTRB(16, 10, 16, 0),
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-            decoration: BoxDecoration(
-              color: _activeModelSource.contains('Offline')
-                  ? Colors.amber.withValues(alpha: 0.15)
-                  : Colors.purple.withValues(alpha: 0.1),
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(
-                color: _activeModelSource.contains('Offline')
-                    ? Colors.amber.withValues(alpha: 0.4)
-                    : Colors.purple.withValues(alpha: 0.25),
-              ),
-            ),
-            child: Row(
-              children: [
-                Icon(
-                  _activeModelSource.contains('Offline')
-                      ? Icons.eco
-                      : Icons.auto_awesome,
-                  size: 15,
-                  color: _activeModelSource.contains('Offline')
-                      ? Colors.green[800]
-                      : Colors.purple,
-                ),
-                const SizedBox(width: 8),
-                Text(
-                  _activeModelSource.contains('Offline')
-                      ? 'Recognized with On-Device Produce AI Model'
-                      : 'Recognized with Gemini 1.5 Flash Vision AI',
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                    color: _activeModelSource.contains('Offline')
-                        ? Colors.green[900]
-                        : Colors.purple,
+          child: Builder(
+            builder: (BuildContext context) {
+              final bool usedLocal = _modelSource?.isLocal ?? false;
+              final Color accent =
+                  usedLocal ? Colors.amber : Colors.purple;
+              final Color accentText = usedLocal ? Colors.green[800]! : Colors.purple;
+              return Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                decoration: BoxDecoration(
+                  color: accent.withValues(alpha: usedLocal ? 0.15 : 0.1),
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(
+                    color: accent.withValues(alpha: usedLocal ? 0.4 : 0.25),
                   ),
                 ),
-              ],
-            ),
+                child: Row(
+                  children: [
+                    Icon(
+                      usedLocal ? Icons.eco : Icons.auto_awesome,
+                      size: 15,
+                      color: accentText,
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        _engineBannerText(usedLocal),
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                          color: usedLocal ? Colors.green[900] : Colors.purple,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
           ),
         ),
 
